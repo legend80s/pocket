@@ -23,6 +23,7 @@ async function main() {
   // console.log('\nbiome.json before:');
   // console.log(biomeJson);
   console.log()
+
   await modifyBiome(dir)
   // console.log('\nbiome.json after:');
   // console.log(biomeJson);

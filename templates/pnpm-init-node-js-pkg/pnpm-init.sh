@@ -10,6 +10,9 @@ echo_green() {
   echo -e "${GREEN}$1${NC}"
 }
 
+
+dirname=''
+
 pnpm_init() {
   md_and_cd "$@" && pnpm_init_in_folder
 }
@@ -17,12 +20,12 @@ pnpm_init() {
 # 功能：创建文件夹并进入
 # 用法：mcd [文件夹名]
 md_and_cd() {
-  local dirname="$1"
+  dirname="$1"
 
   # If no argument provided, prompt for input
   if [ -z "$dirname" ]; then
     # read -p "请输入文件夹名: " dirname
-    echo -n "Please enter folder name: "
+    echo -n "Enter folder name (will also be used as \`name\` in package.json):"
     read dirname
     # 检查是否输入了内容
     if [ -z "$dirname" ]; then
@@ -59,6 +62,7 @@ pnpm_init_in_folder() {
   echo_green "\n🔄 Initializing pnpm project in $(pwd)"
 
   echo_green "\n1. pnpm init with type="module"" && \
+  echo "# $dirname" > README.md && \
   pnpm init && \
   pnpm pkg set type=module && \
   echo_green "\n2. git init" && \

@@ -12,11 +12,23 @@
     "preversion": "npm test && npm run typecheck",
     "postversion": "npm publish && git push && git push --tags"
   },
+  "bin": {
+    "pocket": "./bin/pocket.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@types/node": "^26.1.0"
+    "@types/node": "^26.1.0",
+    "@types/prompts": "^2.4.9"
+  },
+  "dependencies": {
+    "prompts": "^2.4.2"
   }
 }

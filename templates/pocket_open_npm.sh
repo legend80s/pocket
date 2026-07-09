@@ -1,7 +1,20 @@
 # desc: 快速打开 npm 包页
-# usage: pocket_open_npm [包名]
+# usage: pocket_open_npm [--site=npmx] [包名]
 pocket_open_npm() {
-  local pkg="$1"
+  local pkg=""
+  local site="npmjs"
+
+  for arg in "$@"; do
+    case "$arg" in
+      --site=*)
+        site="${arg#*=}"
+        ;;
+      *)
+        pkg="$arg"
+        ;;
+    esac
+  done
+
   if [[ -z "$pkg" ]]; then
     if [[ -f "package.json" ]]; then
       pkg=$(node -p "require('./package.json').name")
@@ -10,7 +23,12 @@ pocket_open_npm() {
     fi
   fi
 
-  local url="https://www.npmjs.com/package/$pkg"
+  local url
+  case "$site" in
+    npmjs) url="https://www.npmjs.com/package/$pkg" ;;
+    npmx)  url="https://npmx.dev/package/$pkg" ;;
+    *)     echo "❌ 不支持的站点: $site (支持: npmjs, npmx)" && return 1 ;;
+  esac
 
   OS=$(uname -s)
 

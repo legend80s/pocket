@@ -22,7 +22,7 @@ it("should list all available alias templates", () => {
     {
       name: "pocket_open_npm",
       description: "快速打开 npm 包页",
-      usage: "pocket_open_npm [包名]",
+      usage: "pocket_open_npm [--site=npmx] [包名]",
     },
     {
       name: "pocket_pnpm_init_node_js_pkg",

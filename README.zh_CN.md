@@ -4,7 +4,7 @@
   <img src="assets/banner.svg" alt="pocket: A shell alias library that follows the shadcn approach" width="600" />
 </p>
 
-<p align="center">[English](./README.md) | 中文</p>
+<p align="center"><a href="./README.md">English</a> | 中文</p>
 
 > 从口袋里掏出你的专属命令行工具。
 

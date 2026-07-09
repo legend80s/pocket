@@ -1,10 +1,10 @@
-# Pocket
+<h1 align="center">Pocket</h1>
 
 <p align="center">
   <img src="assets/banner.svg" alt="pocket: A shell alias library that follows the shadcn approach" width="600" />
 </p>
 
-[English](./README.md) | 中文
+<p align="center">[English](./README.md) | 中文</p>
 
 > 从口袋里掏出你的专属命令行工具。
 

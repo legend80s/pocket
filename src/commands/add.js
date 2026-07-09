@@ -45,7 +45,7 @@ function ensureRcSource(rcFile, aliasesFile) {
   }
 
   const content = readFileSync(rcFile, "utf-8")
-  const sourceLine = `source ${aliasesFile}`
+  const sourceLine = `source '${aliasesFile}'`
 
   if (!content.includes(sourceLine)) {
     appendFileSync(rcFile, `\n# pocket: source\n${sourceLine}\n`)
@@ -171,7 +171,9 @@ export async function addCommand(aliasNames, options) {
     const template = loadTemplate(name)
     if (!template) {
       console.error(`❌ 未找到模板: ${name}`)
-      results.push({ name, success: false, error: "模板不存在" })
+      results.push(
+        /** @type {const} */ ({ name, success: false, error: "模板不存在" }),
+      )
       continue
     }
 
@@ -181,29 +183,39 @@ export async function addCommand(aliasNames, options) {
       template.source,
       options.force,
     )
-    results.push({ name, success: result.success, ...result.data })
+
+    results.push({ name, ...result })
   }
 
   // 6. 输出结果
   console.log("\n📦 安装结果:")
-  for (const r of results) {
-    if (!r.success) {
-      console.log(`  ❌ ${r.name}: 失败 - ${r.error}`)
-    } else if (r.action === "skipped") {
-      console.log(`  ⏭️  ${r.name}: 已跳过`)
-    } else if (r.action === "updated") {
-      console.log(`  🔄 ${r.name}: 已更新`)
-    } else if (r.action === "added") {
-      console.log(`  ✅ ${r.name}: 已安装`)
+  for (const result of results) {
+    if (!result.success) {
+      console.log(`  ❌ ${result.name}: 失败 - ${result.error}`)
+    } else if (result.data.action === "skipped") {
+      console.log(`  ⏭️  ${result.name}: 已跳过`)
+    } else if (result.data.action === "updated") {
+      console.log(`  🔄 ${result.name}: 已更新`)
+    } else if (result.data.action === "added") {
+      console.log(`  ✅ ${result.name}: 已安装`)
     }
   }
 
   // 7. 提示生效
-  if (results.some((r) => r.action === "added" || r.action === "updated")) {
+  if (
+    results.some((result) => {
+      return (
+        result.success &&
+        (result.data.action === "added" || result.data.action === "updated")
+      )
+    })
+  ) {
     console.log(`\n✅ 已写入到 ${aliasesFile}`)
+
     if (!existed) {
       console.log(`📝 已追加 source 到 ${rcFile}`)
     }
-    console.log(`\n请运行 source ${rcFile} 或重启终端以生效`)
+
+    console.log(`\n重启终端以生效`)
   }
 }

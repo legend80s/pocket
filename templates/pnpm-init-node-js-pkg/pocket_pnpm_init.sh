@@ -1,4 +1,5 @@
-alias pnpminit="pnpm_init"
+# desc: 快速打开 npm 包页
+
 
 # 定义颜色
 GREEN='\033[0;32m'
@@ -6,20 +7,20 @@ BOLD_GREEN='\033[1;32m'
 NC='\033[0m'
 
 # 输出绿色文字
-echo_green() {
+__pocket_echo_green() {
   echo -e "${GREEN}$1${NC}"
 }
 
-
 dirname=''
 
-pnpm_init() {
-  md_and_cd "$@" && pnpm_init_in_folder
+# @public
+pocket_pnpm_init() {
+  __pocket_md_and_cd "$@" && __pocket_pnpm_init_in_folder
 }
 
 # 功能：创建文件夹并进入
 # 用法：mcd [文件夹名]
-md_and_cd() {
+__pocket_md_and_cd() {
   dirname="$1"
 
   # If no argument provided, prompt for input
@@ -56,7 +57,7 @@ md_and_cd() {
   fi
 }
 
-pnpm_init_in_folder() {
+__pocket_pnpm_init_in_folder() {
   start_time=$(date +%s)
 
   echo_green "\n🔄 Initializing pnpm project in $(pwd)"

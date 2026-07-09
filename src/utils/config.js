@@ -2,15 +2,18 @@
  * @import { PocketConfig, ShellType } from '../types.js'
  */
 
+import { existsSync } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"
+import { uniqueHomeDir } from "./constants.js"
 
 /**
  * 获取 Pocket 配置
- * @returns {PocketConfig}
+ * @returns {PocketConfig}s
  */
 export function getConfig() {
-  const pocketDir = join(homedir(), ".pocket")
+  const pocketDir = join(homedir(), `.${uniqueHomeDir}`)
+
   return {
     pocketDir,
     aliasesFile: join(pocketDir, "aliases.sh"),
@@ -22,10 +25,36 @@ export function getConfig() {
  * @returns {ShellType}
  */
 export function detectShell() {
+  // if ~/.zshrc exists, return "zsh"
+  // if ~/.bashrc exists, return "bash"
+  // else return "unknown"
+  const zshrc = join(homedir(), ".zshrc")
+  const bashrc = join(homedir(), ".bashrc")
+
+  if (existsSync(zshrc)) {
+    return "zsh"
+  }
+
+  if (existsSync(bashrc)) {
+    return "bash"
+  }
+
   const shell = process.env.SHELL || ""
-  if (shell.includes("zsh")) return "zsh"
-  if (shell.includes("bash")) return "bash"
+
+  // console.log("shell:", shell) // is always `D:\app\Git\usr\bin\bash.exe` not zsh
+
+  if (shell.includes("zsh")) {
+    return "zsh"
+  }
+  if (shell.includes("bash")) {
+    return "bash"
+  }
+
   return "unknown"
+}
+
+if (import.meta.main) {
+  console.log(detectShell())
 }
 
 /**

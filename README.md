@@ -1,47 +1,48 @@
-# 🧰 pocket
+# 🧰 Pocket
 
-从口袋里掏出你的专属命令行工具。
+> Your command-line tool is right in your pocket — take it out.
 
-## 安装
+A shell alias library that follows the shadcn approach — installed via copy source code, not dependency.
+
+Feel free to customize it — you own the code, just like shadcn.
+
+## Install
 
 ```bash
-# 使用 npx（推荐）
-npx @legend80s/pocket@latest add opennpm # 注意：`@latest` 建议增加
+# Use npx
+npx @legend80s/pocket@latest add # `@latest` is recommended
 
-# 全局安装
+# Install globally
 npm install -g @legend80s/pocket
 pocket add opennpm
 ```
 
-## Alias 库
+## Alias List
 
 | Alias | 描述 |
 | :---: | :---: |
 | opennpm | 快速打开 npm 包页 |
 
-## 使用
+## Usage
 
 ```bash
-# 安装 alias
+# 查看所有 alias
+pocket list
+
+# 交互式选择
+pocket add
+
+# 安装单个
 pocket add opennpm
 
 # 批量安装
 pocket add opennpm opengh
 
-# 交互式选择
-pocket add
-
-# 强制覆盖
-pocket add opennpm --force
-
-# 查看已安装
-pocket list
-
 # 帮助
 pocket --help
 ```
 
-## 文件结构
+## Installed Directory Layout
 
 ```text
 .pocket
@@ -50,19 +51,18 @@ pocket --help
     └── pocket_open_npm.sh # 目前安装的 `pocket_open_npm` alias 函数
 ```
 
-.zshrc 中自动添加：
+It will insert a one line `source` in your `~/.zshrc` or `~/.bashrc`：
 
 ```bash
+# ~/.zshrc or ~/.bashrc
 source ~/.pocket/aliases/index.sh
 ```
 
-```
-~/.pocket/
-└── alias-list/
-    ├── pocket_open_npm.sh       ← 从 templates/ 复制过来的单文件
-    ├── pocket_pnpm_init.sh      ← 同上
-    ├── pnpm-init-node-js-pkg/
-    │   ├── pocket_pnpm_init.sh  ← 本身就是多文件模板
-    │   └── modify.js
-    └── index.sh
+## Uninstall
+
+Remove or comment the `source` then open a new terminal tab.
+
+```bash
+# ~/.zshrc or ~/.bashrc
+# source ~/.pocket/aliases/index.sh
 ```

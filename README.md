@@ -45,11 +45,13 @@ pocket --help
 
 ```text
 ~/.pocket/
-└── aliases.sh          # 所有已安装的 alias 函数
+└── aliases          # 所有已安装的 alias 函数
+    └── index.sh
+    └── pocket_open_npm.sh
 ```
 
 .zshrc 中自动添加：
 
 ```bash
-source ~/.pocket/aliases.sh
+source ~/.pocket/aliases/index.sh
 ```

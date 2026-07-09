@@ -20,6 +20,7 @@ import {
   MARKER_START,
 } from "../utils/parser.js"
 import { listAvailableAliases, loadTemplate } from "../utils/template.js"
+import { dirname } from "node:path"
 
 /**
  * 确保 Pocket 目录存在
@@ -63,8 +64,13 @@ function ensureRcSource(rcFile, aliasesFile) {
  * @returns {Promise<Result<{ action: 'added' | 'updated' | 'skipped' }>>}
  */
 async function writeAlias(aliasesFile, aliasName, source, force) {
-  // 确保 aliases.sh 存在
+  // 确保 aliases/index.sh 存在
   if (!existsSync(aliasesFile)) {
+    const dir = dirname(aliasesFile)
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true })
+    }
+
     // 创建新文件，写入 start 标记
     const header = `${MARKER_START}\n\n${MARKER_END}\n`
     writeFileSync(aliasesFile, header, "utf-8")

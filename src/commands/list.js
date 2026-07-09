@@ -3,9 +3,10 @@
  * @import { InstalledAlias } from '../types.js'
  */
 
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync } from "node:fs"
 import { getConfig } from "../utils/config.js"
 import { readAllAliases } from "../utils/parser.js"
+import { listAvailableAliases } from "../utils/template.js"
 
 /**
  * 执行 list 命令
@@ -13,24 +14,50 @@ import { readAllAliases } from "../utils/parser.js"
 export async function listCommand() {
   const { aliasesFile } = getConfig()
 
-  if (!existsSync(aliasesFile)) {
-    console.log("📭 尚未安装任何 alias")
-    console.log(`运行 pocket add 来安装`)
+  // 获取所有可用 alias
+  const available = listAvailableAliases()
+
+  if (available.length === 0) {
+    console.log("📭 没有可用的 alias 模板")
     return
   }
 
-  const aliases = readAllAliases(aliasesFile)
-
-  if (aliases.length === 0) {
-    console.log("📭 尚未安装任何 alias")
-    console.log(`运行 pocket add 来安装`)
-    return
+  // 获取已安装的 alias 名称列表
+  const installedNames = new Set()
+  if (existsSync(aliasesFile)) {
+    const installed = readAllAliases(aliasesFile)
+    for (const alias of installed) {
+      installedNames.add(alias.name)
+    }
   }
 
-  console.log(`\n📦 已安装的 alias (${aliases.length} 个):\n`)
-  for (const alias of aliases) {
-    const desc = alias.description ? `- ${alias.description}` : ""
-    console.log(`  ${alias.name.padEnd(12)} ${desc}`)
+  // 计算最长的 alias 名称长度，用于对齐
+  // const maxNameLen = Math.max(...available.map((a) => a.name.length))
+
+  console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
+
+  /** @type {Record<string, { name: string; description: string; status: string}>} */
+  const all = {}
+
+  let index = 1
+
+  for (const alias of available) {
+    const isInstalled = installedNames.has(alias.name)
+    const status = isInstalled ? "✅ 已安装" : "⬜ 未安装"
+    // const paddedName = alias.name.padEnd(maxNameLen)
+    // console.log(`  ${paddedName}  ${status}  - ${alias.description}`)
+
+    all[index] = {
+      name: alias.name,
+      description: alias.description,
+      status,
+    }
+
+    index += 1
   }
-  console.log(`\n📁 文件: ${aliasesFile}`)
+
+  console.table(all)
+
+  console.log(`\n📁 安装路径: ${aliasesFile}`)
+  console.log(`\n💡 运行 pocket add <alias> 安装`)
 }

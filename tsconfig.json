@@ -34,6 +34,7 @@
 
     // Recommended Options
     "strict": true,
+    "noImplicitAny": true,
     
     "checkJs": true,
     "jsx": "react-jsx",

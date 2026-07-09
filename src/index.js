@@ -6,28 +6,31 @@
  */
 
 import { parseArgs } from "node:util"
+import pkg from "../package.json" with { type: "json" }
 import { addCommand } from "./commands/add.js"
 import { listCommand } from "./commands/list.js"
 
-const VERSION = "0.1.0"
+// console.log("pkg:", pkg)
+
+const VERSION = pkg.version
 
 /**
  * 显示帮助信息
  */
 function showHelp() {
   console.log(`
-🧰 pocket - 从口袋里掏出你的专属命令行工具
+> 🧰 pocket - 从口袋里掏出你的专属命令行工具
 
-用法:
-  pocket add <alias...>    安装一个或多个 alias
-  pocket list              列出已安装的 alias
-  pocket --version, -v     显示版本号
-  pocket --help, -h        显示帮助信息
+## 用法:
+  pocket add <alias...>      安装一个或多个 alias
+  pocket list                列出所有 alias
+  pocket --version, -v       显示版本号
+  pocket --help, -h          显示帮助信息
 
-示例:
-  pocket add opennpm       安装 opennpm
-  pocket add opennpm opengh 批量安装
-  pocket add               交互式选择安装
+## 示例:
+  pocket add opennpm         安装 opennpm
+  pocket add opennpm opengh  批量安装
+  pocket add                 交互式选择安装
   pocket add opennpm --force 强制覆盖
 
 文档:
@@ -51,7 +54,7 @@ function parseArgsAll(args) {
       debug: { type: "boolean" },
     },
     allowPositionals: true,
-    strict: false,
+    strict: true,
   })
 
   // console.log("values:", values)
@@ -66,10 +69,14 @@ function parseArgsAll(args) {
     command,
     aliases,
     options: {
+      // @ts-expect-error
       force: values.force ?? false,
     },
+    // @ts-expect-error
     help: values.help ?? false,
+    // @ts-expect-error
     version: values.version ?? false,
+    // @ts-expect-error
     list: values.list ?? false,
   }
 }
@@ -82,11 +89,11 @@ async function main() {
 
   const { command, aliases, options, help, version, list } = parseArgsAll(args)
 
-  if (args.length === 0) {
-    // 无参数 → 交互式 add
-    await addCommand([], { force: false })
-    return
-  }
+  // if (args.length === 0) {
+  //   // 无参数 → 交互式 add
+  //   await addCommand([], { force: false })
+  //   return
+  // }
 
   // --help 或 -h
   if (help) {
@@ -106,16 +113,15 @@ async function main() {
     return
   }
 
-  // add 命令（默认命令，即使不写 add 也支持）
-  if (command === "add" || command === "") {
+  // add 命令
+  if (command === "add") {
     await addCommand(aliases, options)
     return
   }
 
-  // 未知命令，显示帮助
-  console.log(`❌ 未知命令: ${command}`)
-  showHelp()
-  process.exit(1)
+  // 未知命令 → 列出所有 alias
+  // console.log(`❌ 未知命令: ${command}`)
+  await listCommand()
 }
 
 main().catch((err) => {

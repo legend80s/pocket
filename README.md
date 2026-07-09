@@ -54,7 +54,7 @@ pocket --help
     └── pocket_open_npm.sh # Installed `pocket_open_npm` alias. Feel free to customize it
 ```
 
-It will insert a one line `source` in your `~/.zshrc` or `~/.bashrc`：
+It will insert `source` in your `~/.zshrc` or `~/.bashrc`：
 
 ```bash
 # ~/.zshrc or ~/.bashrc

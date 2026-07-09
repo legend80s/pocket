@@ -2,6 +2,14 @@
 
 English | [中文](./README.zh_CN.md)
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <rect width="800" height="200" rx="12" fill="#0d1117"/>
+  <text x="400" y="90" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="cyan">🧰 Pocket</text>
+  <text x="400" y="140" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" fill="#8b949e">A shell alias library that follows the shadcn approach</text>
+  <line x1="250" y1="170" x2="550" y2="170" stroke="#30363d" stroke-width="1"/>
+</svg>
+
+
 > Your command-line tool is right in your pocket — take it out.
 
 A shell alias library that follows the shadcn approach — installed via copy source code, not dependency.

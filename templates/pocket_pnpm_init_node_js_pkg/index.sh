@@ -99,7 +99,7 @@ __pocket_pnpm_init_in_folder() {
     scripts.postversion="npm publish && git push && git push --tags" && \
 
   __pocket_echo_green '8. Modify tsconfig.json and biome.json' && \
-  node ~/.pocket/alias-list/pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
+  node ~/.pocket/alias-list/pocket_pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
   __pocket_echo_green '\n9. Done!'
 
   end_time=$(date +%s)

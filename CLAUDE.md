@@ -39,11 +39,11 @@ After `pocket add`, the user's `~/.pocket/` looks like:
 ~/.pocket/
 └── alias-list/
     ├── pocket_open_npm.sh          ← single-file template
-    ├── pnpm_init_node_js_pkg/      ← multi-file template (entire directory copied)
+    ├── pocket_pnpm_init_node_js_pkg/      ← multi-file template (entire directory copied)
     │   ├── index.sh                ← entry point, has # desc:
     │   └── modify.js
     └── index.sh                    ← auto-managed: source ./pocket_open_npm.sh
-                                         source ./pnpm_init_node_js_pkg/index.sh
+                                         source ./pocket_pnpm_init_node_js_pkg/index.sh
 ```
 
 The rc file (`~/.zshrc`/`~/.bashrc`) has one line: `source ~/.pocket/alias-list/index.sh`.

@@ -4,22 +4,22 @@
  */
 
 import {
+  appendFileSync,
+  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
-  writeFileSync,
-  appendFileSync,
   rmSync,
-  cpSync,
+  writeFileSync,
 } from "node:fs"
 import prompts from "prompts"
 import { detectShell, getConfig, getRcFile } from "../utils/config.js"
+import { simpleDiff } from "../utils/diff.js"
 import {
+  getTemplatesDir,
   listAvailableAliases,
   loadTemplate,
-  getTemplatesDir,
 } from "../utils/template.js"
-import { simpleDiff } from "../utils/diff.js"
 
 /**
  * 确保 alias-list 目录存在
@@ -87,9 +87,7 @@ function isInstalled(aliasDir, name, type) {
  */
 function readOldContent(aliasDir, name, type) {
   const path =
-    type === "file"
-      ? `${aliasDir}/${name}.sh`
-      : `${aliasDir}/${name}/index.sh`
+    type === "file" ? `${aliasDir}/${name}.sh` : `${aliasDir}/${name}/index.sh`
   try {
     return readFileSync(path, "utf-8")
   } catch {
@@ -207,7 +205,12 @@ export async function addCommand(aliasNames, options) {
     if (!template) {
       console.error(`❌ 未找到模板: ${name}`)
       results.push(
-        /** @type {const} */ ({ name, usage: "", success: false, error: "模板不存在" }),
+        /** @type {const} */ ({
+          name,
+          usage: "",
+          success: false,
+          error: "模板不存在",
+        }),
       )
       continue
     }
@@ -219,7 +222,7 @@ export async function addCommand(aliasNames, options) {
       const answer = await prompts({
         type: "confirm",
         name: "value",
-        message: `⚠️  ${name} 已安装，是否覆盖？`,
+        message: `\n⚠️  ${name} 已安装，是否覆盖？`,
         initial: false,
       })
       if (!answer.value) {

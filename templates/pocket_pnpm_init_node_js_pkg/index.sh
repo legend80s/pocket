@@ -1,5 +1,5 @@
 # desc: 快速初始化 Node.js pnpm 项目
-# usage: pocket_pnpm_init <文件夹名>
+# usage: pocket_pnpm_init_node_js_pkg <文件夹名>
 
 
 # 定义颜色
@@ -15,7 +15,7 @@ __pocket_echo_green() {
 dirname=''
 
 # @public
-pocket_pnpm_init() {
+pocket_pnpm_init_node_js_pkg() {
   __pocket_md_and_cd "$@" && __pocket_pnpm_init_in_folder
 }
 

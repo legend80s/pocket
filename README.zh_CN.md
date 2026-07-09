@@ -1,4 +1,8 @@
-<h1 align=center style="text-align: center;"> 🧰 Pocket</h1>
+# Pocket
+
+<p align="center">
+  <img src="assets/banner.svg" alt="pocket: A shell alias library that follows the shadcn approach" width="600" />
+</p>
 
 [English](./README.md) | 中文
 

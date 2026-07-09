@@ -45,7 +45,7 @@ pocket add opennpm opengh
 pocket --help
 ```
 
-## 文件结构
+## 安装文件结构
 
 ```text
 ~/.pocket
@@ -54,19 +54,20 @@ pocket --help
     └── pocket_open_npm.sh # 已安装的 `pocket_open_npm` alias 函数，你可随意修改成你想要的样子
 ```
 
-.zshrc 中自动添加：
+Shell 配置文件自动添加：
 
 ```bash
+# ~/.zshrc or ~/.bashrc
 source ~/.pocket/aliases/index.sh
 ```
 
+## 卸载
+
+删除或注释如下 `source`，然后重启终端即可：
+
+```bash
+# ~/.zshrc or ~/.bashrc
+# source ~/.pocket/aliases/index.sh
 ```
-~/.pocket/
-└── alias-list/
-    ├── pocket_open_npm.sh       ← 从 templates/ 复制过来的单文件
-    ├── pocket_pnpm_init.sh      ← 同上
-    ├── pnpm-init-node-js-pkg/
-    │   ├── pocket_pnpm_init.sh  ← 本身就是多文件模板
-    │   └── modify.js
-    └── index.sh
-```
+
+最后删除 `~/.pocket` 目录（可选）。

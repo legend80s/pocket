@@ -63,9 +63,11 @@ source ~/.pocket/aliases/index.sh
 
 ## Uninstall
 
-Remove or comment the `source` then open a new terminal tab.
+Remove or comment the `source` line below then open a new terminal tab.
 
 ```bash
 # ~/.zshrc or ~/.bashrc
 # source ~/.pocket/aliases/index.sh
 ```
+
+Feel free to remove `~/.pocket` directory (optional).

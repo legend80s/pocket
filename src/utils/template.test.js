@@ -27,7 +27,7 @@ it("should list all available alias templates", () => {
     {
       name: "pocket_pnpm_init_node_js_pkg",
       description: "快速初始化 Node.js pnpm 项目",
-      usage: "pocket_pnpm_init_node_js_pkg <文件夹名>",
+      usage: "pocket_pnpm_init_node_js_pkg [文件夹名]",
     },
   ])
 })

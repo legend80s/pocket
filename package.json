@@ -1,7 +1,7 @@
 {
-  "name": "alias-pocket",
+  "name": "@legend80s/pocket",
   "version": "1.0.0",
-  "description": "",
+  "description": "Alias pocket: A shell alias library that follows the shadcn approach — installed via copy source code, not dependency. Feel free to customize it — you own the code, just like shadcn.",
   "main": "index.js",
   "scripts": {
     "test": "node --test",
@@ -20,7 +20,7 @@
     "src/",
     "templates/"
   ],
-  "keywords": [],
+  "keywords": ["alias", "shell", "cli", "npm", "zsh", "bash", "pocket", "productivity", "shadcn"],
   "author": "",
   "license": "ISC",
   "type": "module",

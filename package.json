@@ -1,0 +1,22 @@
+{
+  "name": "alias-pocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test",
+    "typecheck": "tsgo --noEmit",
+    "pub:patch": "npm version patch",
+    "pub:minor": "npm version minor",
+    "pub:major": "npm version major",
+    "preversion": "npm test && npm run typecheck",
+    "postversion": "npm publish && git push && git push --tags"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.1.0"
+  }
+}

@@ -69,14 +69,10 @@ function parseArgsAll(args) {
     command,
     aliases,
     options: {
-      // @ts-expect-error
       force: values.force ?? false,
     },
-    // @ts-expect-error
     help: values.help ?? false,
-    // @ts-expect-error
     version: values.version ?? false,
-    // @ts-expect-error
     list: values.list ?? false,
   }
 }

@@ -1,5 +1,7 @@
 <h1 align=center style="text-align: center;"> 🧰 Pocket</h1>
 
+English | [中文](./README.zh_CN.md)
+
 > Your command-line tool is right in your pocket — take it out.
 
 A shell alias library that follows the shadcn approach — installed via copy source code, not dependency.
@@ -14,7 +16,7 @@ npx @legend80s/pocket@latest add # `@latest` is recommended
 
 # Install globally
 npm install -g @legend80s/pocket
-pocket add opennpm
+pocket add
 ```
 
 ## Alias List

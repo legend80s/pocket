@@ -1,5 +1,7 @@
 <h1 align=center style="text-align: center;"> 🧰 Pocket</h1>
 
+[English](./README.md) | 中文
+
 > 从口袋里掏出你的专属命令行工具。
 
 一个 shell alias 库。类似 shadcn，通过复制安装。
@@ -10,11 +12,11 @@
 
 ```bash
 # 使用 npx（推荐）
-npx @legend80s/pocket@latest add opennpm # 注意：`@latest` 建议增加
+npx @legend80s/pocket@latest add # 注意：`@latest` 建议增加
 
 # 全局安装
 npm install -g @legend80s/pocket
-pocket add opennpm
+pocket add
 ```
 
 ## Alias 库

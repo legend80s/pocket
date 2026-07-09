@@ -5,14 +5,23 @@
 
 import { existsSync } from "node:fs"
 import { getConfig } from "../utils/config.js"
-import { readAllAliases } from "../utils/parser.js"
 import { listAvailableAliases } from "../utils/template.js"
+
+/**
+ * 检查 alias 是否已安装
+ * @param {string} aliasDir
+ * @param {string} name
+ * @returns {boolean}
+ */
+function isInstalled(aliasDir, name) {
+  return existsSync(`${aliasDir}/${name}`)
+}
 
 /**
  * 执行 list 命令
  */
 export async function listCommand() {
-  const { aliasesFile } = getConfig()
+  const { aliasDir, aliasesFile } = getConfig()
 
   // 获取所有可用 alias
   const available = listAvailableAliases()
@@ -22,19 +31,16 @@ export async function listCommand() {
     return
   }
 
-  // 获取已安装的 alias 名称列表
-  const installedNames = new Set()
-  if (existsSync(aliasesFile)) {
-    const installed = readAllAliases(aliasesFile)
-    for (const alias of installed) {
-      installedNames.add(alias.name)
+  // 创建别名到类型的映射（预扫描 aliasDir）
+  /** @type {Record<string, boolean>} */
+  const installedMap = {}
+  if (existsSync(aliasDir)) {
+    for (const alias of available) {
+      installedMap[alias.name] = isInstalled(aliasDir, alias.name)
     }
   }
 
-  // 计算最长的 alias 名称长度，用于对齐
-  // const maxNameLen = Math.max(...available.map((a) => a.name.length))
-
-  console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
+  // console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
 
   /** @type {Record<string, { name: string; description: string; status: string}>} */
   const all = {}
@@ -42,10 +48,8 @@ export async function listCommand() {
   let index = 1
 
   for (const alias of available) {
-    const isInstalled = installedNames.has(alias.name)
-    const status = isInstalled ? "✅ 已安装" : "⬜ 未安装"
-    // const paddedName = alias.name.padEnd(maxNameLen)
-    // console.log(`  ${paddedName}  ${status}  - ${alias.description}`)
+    const installed = installedMap[alias.name] ?? false
+    const status = installed ? "✅ 已安装" : "⬜ 未安装"
 
     all[index] = {
       name: alias.name,

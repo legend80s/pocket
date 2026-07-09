@@ -2,10 +2,13 @@ import assert from "node:assert"
 import { it } from "node:test"
 import { listAvailableAliases } from "./template.js"
 
-it("should do something", () => {
+it("should list all available alias templates", () => {
   const templates = listAvailableAliases()
 
-  assert.deepStrictEqual(templates.length, 1)
+  assert.ok(
+    templates.length === 2,
+    `Expected at least 2 templates, got ${templates.length}`,
+  )
 
   const allSourceNotEmpty = templates.every(
     (template) => template.source.trim().length > 0,
@@ -17,8 +20,12 @@ it("should do something", () => {
 
   assert.deepStrictEqual(allWithoutSources, [
     {
-      description: "快速打开 npm 包页",
+      name: "pnpm_init_node_js_pkg",
+      description: "快速初始化 Node.js pnpm 项目",
+    },
+    {
       name: "pocket_open_npm",
+      description: "快速打开 npm 包页",
     },
   ])
 })

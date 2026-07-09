@@ -44,10 +44,10 @@ pocket --help
 ## 文件结构
 
 ```text
-~/.pocket/
-└── aliases          # 所有已安装的 alias 函数
-    └── index.sh
-    └── pocket_open_npm.sh
+.pocket
+└── alias-list             # 所有已安装的 alias 都会存放在这个目录下
+    ├── index.sh           # 已安装 alias 函数入口文件
+    └── pocket_open_npm.sh # 目前安装的 `pocket_open_npm` alias 函数
 ```
 
 .zshrc 中自动添加：

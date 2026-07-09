@@ -1,9 +1,11 @@
 /**
- * aliases.sh 解析工具
- * @import { InstalledAlias } from '../types.js'
+ * Parse installed aliases from file (deprecated — kept for reference)
+ *
+ * The old system (aliases/index.sh with markers) has been replaced by
+ * a per-file structure under ~/.pocket/alias-list/.
+ *
+ * This file remains for reference only; it is no longer imported.
  */
-
-import { readFileSync } from "node:fs"
 
 export const MARKER_START = `# ====== pocket:start ======
 
@@ -13,134 +15,10 @@ export const MARKER_START = `# ====== pocket:start ======
 export const MARKER_END = "# ====== pocket:end ======"
 
 /**
- * 在内容中查找指定 alias
- * @param {string} content
- * @param {string} aliasName
- * @returns {InstalledAlias | null}
+ * @deprecated Use filesystem check under aliasDir instead.
  */
-export function findAliasInFile(content, aliasName) {
-  const lines = content.split("\n")
-  let inAlias = false
-  let currentName = ""
-  let startLine = -1
-  let startIndex = -1
-  let accumulatedIndex = 0
-  let aliasContent = ""
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
-    const lineStartIndex = accumulatedIndex
-    const lineEndIndex = accumulatedIndex + line.length + 1 // +1 for \n
-
-    // 检测 alias 开始标记
-    const startMatch = line.match(/^# pocket:(\w+)/)
-    if (startMatch) {
-      inAlias = true
-      currentName = startMatch[1]
-      startLine = i
-      startIndex = lineStartIndex
-      aliasContent = line + "\n"
-
-      if (currentName === aliasName) {
-        // 找到目标，继续收集直到下一个标记或 end
-        let j = i + 1
-        let endIndex = -1
-        let fullContent = line + "\n"
-
-        while (j < lines.length) {
-          const nextLine = lines[j]
-          // 遇到下一个 alias 标记或 end 标记，停止
-          if (nextLine.match(/^# pocket:/)) {
-            endIndex = lines.slice(0, j).join("\n").length + 1 // +1 for trailing newline? actually we need byte offset
-            // 计算字节偏移
-            let byteOffset = 0
-            for (let k = 0; k < j; k++) {
-              byteOffset += lines[k].length + 1
-            }
-            endIndex = byteOffset
-            break
-          }
-          fullContent += nextLine + "\n"
-          j++
-        }
-
-        if (endIndex === -1) {
-          // 直到文件末尾或 end 标记
-          const endMarkerIndex = content.indexOf(MARKER_END)
-          if (endMarkerIndex !== -1) {
-            endIndex = endMarkerIndex
-          } else {
-            endIndex = content.length
-          }
-        }
-
-        return {
-          name: currentName,
-          description: extractDescription(fullContent),
-          source: fullContent,
-          startLine,
-          endLine: j - 1,
-          startIndex,
-          endIndex,
-        }
-      }
-    }
-
-    accumulatedIndex += line.length + 1
-  }
-
-  return null
-}
-
-/**
- * 从函数源码中提取描述
- * @param {string} source
- * @returns {string}
- */
+/** @param {string} source */
 export function extractDescription(source) {
   const match = source.match(/^# desc:\s*(.+)/m)
   return match ? match[1] : ""
-}
-
-/**
- * 解析 aliases.sh 中所有已安装的 alias
- * @param {string} filePath
- * @returns {InstalledAlias[]}
- */
-export function readAllAliases(filePath) {
-  try {
-    const content = readFileSync(filePath, "utf-8")
-    const lines = content.split("\n")
-    const aliases = []
-    let i = 0
-
-    while (i < lines.length) {
-      const line = lines[i]
-      const match = line.match(/^# pocket:(\w+)/)
-      if (match) {
-        const name = match[1]
-        let source = line + "\n"
-        let j = i + 1
-        while (j < lines.length && !lines[j].match(/^# pocket:/)) {
-          source += lines[j] + "\n"
-          j++
-        }
-        aliases.push({
-          name,
-          description: extractDescription(source),
-          source,
-          startLine: i,
-          endLine: j - 1,
-          startIndex: 0, // 实际使用中不需要精确偏移，这里占位
-          endIndex: 0,
-        })
-        i = j
-      } else {
-        i++
-      }
-    }
-    return aliases
-  } catch {
-    return []
-  }
 }

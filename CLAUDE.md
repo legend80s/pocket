@@ -29,7 +29,24 @@ pnpm. Lockfile is `pnpm-lock.yaml`.
 
 ## Architecture
 
-A CLI tool (`@legend80s/pocket`) that installs curated shell alias functions from template files into `~/.pocket/aliases/index.sh` and auto-sources them from `.zshrc`/`.bashrc`.
+A CLI tool (`@legend80s/pocket`) that installs curated shell alias functions from template files into `~/.pocket/alias-list/` and auto-sources them from `.zshrc`/`.bashrc`.
+
+### Deployment Layout
+
+After `pocket add`, the user's `~/.pocket/` looks like:
+
+```
+~/.pocket/
+└── alias-list/
+    ├── pocket_open_npm.sh          ← single-file template
+    ├── pnpm_init_node_js_pkg/      ← multi-file template (entire directory copied)
+    │   ├── index.sh                ← entry point, has # desc:
+    │   └── modify.js
+    └── index.sh                    ← auto-managed: source ./pocket_open_npm.sh
+                                         source ./pnpm_init_node_js_pkg/index.sh
+```
+
+The rc file (`~/.zshrc`/`~/.bashrc`) has one line: `source ~/.pocket/alias-list/index.sh`.
 
 ### Entry Point
 
@@ -38,31 +55,31 @@ A CLI tool (`@legend80s/pocket`) that installs curated shell alias functions fro
 ### Command Flow (`pocket add <alias>`)
 
 1. `src/commands/add.js` — detects shell, reads config, resolves alias names (prompts via `prompts` if none given)
-2. `src/utils/template.js` — loads `.sh` template from `templates/` directory
-3. `src/commands/add.js` — writes alias function into `~/.pocket/aliases/index.sh` (surrounded by `# pocket:start`/`# pocket:end` markers)
-4. `src/utils/config.js` — ensures `source '~/.pocket/aliases/index.sh'` line in `.zshrc`/`.bashrc`
+2. `src/utils/template.js` — loads template info from `templates/` (`.sh` file = single-file, directory with `index.sh` = multi-file)
+3. `src/commands/add.js` — copies template content to `~/.pocket/alias-list/`, appends source line to `index.sh`
+4. On overwrite: deletes old target, copies new, shows simple line diff (±, up to 3 lines)
+5. `src/utils/config.js` — ensures `source '~/.pocket/alias-list/index.sh'` line in rc file
+
+### Template Types
+
+| Type | Layout | Template Name |
+|------|--------|---------------|
+| Single-file | `templates/foo.sh` | `foo` (filename without `.sh`) |
+| Multi-file | `templates/bar/index.sh` + support files | `bar` (directory name) |
+
+Each template must have a `# desc: <description>` line in the `.sh` file.
 
 ### Key Modules
 
 | Module | Role |
 |--------|------|
 | `src/index.js` | CLI entry, arg parsing, routing |
-| `src/commands/add.js` | Install aliases: write to aliases file, update rc file |
-| `src/commands/list.js` | List available + installed aliases with status |
-| `src/utils/template.js` | Read templates from `templates/*.sh` |
-| `src/utils/parser.js` | Parse/modify `aliases.sh` (find, replace, insert aliases) |
-| `src/utils/config.js` | Shell detection, rc file path, pocket directory config |
+| `src/commands/add.js` | Install aliases: copy file/dir to alias-list, manage index.sh, show diff |
+| `src/commands/list.js` | List available + installed aliases with status (installed = file/dir exists under alias-list) |
+| `src/utils/template.js` | Scan `templates/` for single-file and multi-file templates, load by name |
+| `src/utils/config.js` | Shell detection, rc file path, pocket/alias-list directory config |
 | `src/utils/constants.js` | `uniqueHomeDir = "pocket"` |
-
-### Templates
-
-`templates/*.sh` — each file is one alias, with `# desc:` header line for description. Multi-file templates (e.g. `pnpm-init-node-js-pkg/`) organize additional resources alongside the `.sh` template.
-
-### Adding a New Alias
-
-1. Create `templates/<name>.sh` with a `# desc: <description>` header and a shell function
-2. The function name should match the filename (e.g. `pocket_open_npm()` in `pocket_open_npm.sh`)
-3. Tests in `src/utils/template.test.js` will need updating for the count assertion
+| `src/utils/diff.js` | Simple line-level diff (no external deps) |
 
 ### Type System
 

@@ -1,4 +1,4 @@
-# desc: 快速打开 npm 包页
+# desc: 快速初始化 Node.js pnpm 项目
 
 
 # 定义颜色
@@ -97,7 +97,7 @@ __pocket_pnpm_init_in_folder() {
     scripts.postversion="npm publish && git push && git push --tags" && \
 
   echo_green '8. Modify tsconfig.json and biome.json' && \
-  node ~/.pocket/modify.mjs "$PWD" && \
+  node ~/.pocket/alias-list/pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
   echo_green '\n9. Done!'
 
   end_time=$(date +%s)

@@ -13,7 +13,9 @@ export type ParsedArgs = {
 export interface PocketConfig {
   /** Pocket 目录路径，默认为 ~/.pocket */
   pocketDir: string
-  /** alias 文件路径，默认为 ~/.pocket/aliases.sh */
+  /** alias 存放目录，默认为 ~/.pocket/alias-list */
+  aliasDir: string
+  /** alias 索引文件路径，默认为 ~/.pocket/alias-list/index.sh */
   aliasesFile: string
 }
 
@@ -27,6 +29,14 @@ export interface AliasInfo {
   description: string
   /** 函数体源码 */
   source: string
+}
+
+/**
+ * 加载后的模板信息（含类型）
+ */
+export interface TemplateInfo extends AliasInfo {
+  /** "file" 为单文件模板， "dir" 为多文件目录模板 */
+  type: "file" | "dir"
 }
 
 /**

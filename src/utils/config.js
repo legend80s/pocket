@@ -16,7 +16,8 @@ export function getConfig() {
 
   return {
     pocketDir,
-    aliasesFile: join(pocketDir, "aliases/index.sh"),
+    aliasDir: join(pocketDir, "alias-list"),
+    aliasesFile: join(pocketDir, "alias-list", "index.sh"),
   }
 }
 

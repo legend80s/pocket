@@ -14,7 +14,8 @@ import { listAvailableAliases } from "../utils/template.js"
  * @returns {boolean}
  */
 function isInstalled(aliasDir, name) {
-  return existsSync(`${aliasDir}/${name}`)
+  // 单文件: <name>.sh, 多文件目录: <name>/
+  return existsSync(`${aliasDir}/${name}.sh`) || existsSync(`${aliasDir}/${name}`)
 }
 
 /**

@@ -1,4 +1,4 @@
-# 🧰 Pocket
+<h1 align=center style="text-align: center;"> 🧰 Pocket</h1>
 
 > Your command-line tool is right in your pocket — take it out.
 
@@ -19,26 +19,27 @@ pocket add opennpm
 
 ## Alias List
 
-| Alias | 描述 |
-| :---: | :---: |
-| opennpm | 快速打开 npm 包页 |
+| Alias | Description | Usage |
+| :---: | :---: | :---: |
+| `pocket_open_npm` | Quickly open a package's npm page. | `pocket_open_npm [pkg_name]` |
+| `pocket_pnpm_init_node_js_pkg` | Quickly set up a Node.js project with pnpm. | `pocket_pnpm_init_node_js_pkg <folder_name>` |
 
 ## Usage
 
 ```bash
-# 查看所有 alias
+# Browse all aliases and find what interests you.
 pocket list
 
-# 交互式选择
+# Choose interactively
 pocket add
 
-# 安装单个
-pocket add opennpm
+# Install single alias
+pocket add <alias_name>
 
-# 批量安装
-pocket add opennpm opengh
+# Install multiple alias
+pocket add <alias_name1> <alias_name2> ...
 
-# 帮助
+# Show more usage
 pocket --help
 ```
 
@@ -46,9 +47,9 @@ pocket --help
 
 ```text
 .pocket
-└── alias-list             # 所有已安装的 alias 都会存放在这个目录下
-    ├── index.sh           # 已安装 alias 函数入口文件
-    └── pocket_open_npm.sh # 目前安装的 `pocket_open_npm` alias 函数
+└── alias-list             # This directory holds all installed aliases.
+    ├── index.sh           # Entry point for installed alias functions.
+    └── pocket_open_npm.sh # Installed `pocket_open_npm` alias. Feel free to customize it
 ```
 
 It will insert a one line `source` in your `~/.zshrc` or `~/.bashrc`：

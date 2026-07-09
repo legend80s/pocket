@@ -48,7 +48,7 @@ pocket --help
 ## Installed Directory Layout
 
 ```text
-.pocket
+~/.pocket
 └── alias-list             # This directory holds all installed aliases.
     ├── index.sh           # Entry point for installed alias functions.
     └── pocket_open_npm.sh # Installed `pocket_open_npm` alias. Feel free to customize it

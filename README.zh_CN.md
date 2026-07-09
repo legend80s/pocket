@@ -1,7 +1,7 @@
-<h1 hidden align="center">Pocket</h1>
+<!-- <h1 hidden align="center">Pocket</h1> -->
 
 <p align="center">
-  <img src="assets/banner.svg" alt="pocket: A shell alias library that follows the shadcn approach" width="600" />
+  <img src="assets/banner.svg" alt="pocket: A shell alias library that follows the shadcn approach" width="660" />
 </p>
 
 <p align="center"><a href="./README.md">English</a> | 中文</p>

@@ -22,7 +22,7 @@ pocket add
 ## Alias List
 
 | Alias | Description | Usage |
-| :---: | :---: | :---: |
+| --- | --- | --- |
 | `pocket_open_npm` | Quickly open a package's npm page. | `pocket_open_npm [pkg_name]` |
 | `pocket_pnpm_init_node_js_pkg` | Quickly set up a Node.js project with pnpm. | `pocket_pnpm_init_node_js_pkg <folder_name>` |
 

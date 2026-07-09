@@ -22,7 +22,7 @@ pocket add
 ## Alias 库
 
 | Alias | 描述 | 用法 |
-| :---: | :---: | :---: |
+| --- | --- | --- |
 | `pocket_open_npm` | 快速打开 npm 包页 | `pocket_open_npm [包名]` |
 | `pocket_pnpm_init_node_js_pkg` | 快速初始化 Node.js pnpm 项目 | `pocket_pnpm_init_node_js_pkg [文件夹名]` |
 

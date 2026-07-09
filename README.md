@@ -55,3 +55,14 @@ pocket --help
 ```bash
 source ~/.pocket/aliases/index.sh
 ```
+
+```
+~/.pocket/
+└── alias-list/
+    ├── pocket_open_npm.sh       ← 从 templates/ 复制过来的单文件
+    ├── pocket_pnpm_init.sh      ← 同上
+    ├── pnpm-init-node-js-pkg/
+    │   ├── pocket_pnpm_init.sh  ← 本身就是多文件模板
+    │   └── modify.js
+    └── index.sh
+```

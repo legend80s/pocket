@@ -11,11 +11,11 @@ Feel free to customize it — you own the code, just like shadcn.
 ## Install
 
 ```bash
-# Use npx
-npx @legend80s/pocket@latest add # `@latest` is recommended
+# Use pnpx
+pnpx @legend80s/pocket@latest add # `@latest` is recommended
 
 # Install globally
-npm install -g @legend80s/pocket
+pnpm install -g @legend80s/pocket
 pocket add
 ```
 

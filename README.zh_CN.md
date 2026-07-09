@@ -11,11 +11,11 @@
 ## 安装
 
 ```bash
-# 使用 npx（推荐）
-npx @legend80s/pocket@latest add # 注意：`@latest` 建议增加
+# 使用 pnpx（推荐）
+pnpx @legend80s/pocket@latest add # 注意：`@latest` 建议增加
 
 # 全局安装
-npm install -g @legend80s/pocket
+pnpm install -g @legend80s/pocket
 pocket add
 ```
 

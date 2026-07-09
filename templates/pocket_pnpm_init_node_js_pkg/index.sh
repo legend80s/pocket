@@ -26,6 +26,7 @@ __pocket_md_and_cd() {
 
   # If no argument provided, prompt for input
   if [ -z "$dirname" ]; then
+    echo ''
     # read -p "请输入文件夹名: " dirname
     echo -n "Enter folder name (will also be used as \`name\` in package.json):"
     read dirname
@@ -61,21 +62,21 @@ __pocket_md_and_cd() {
 __pocket_pnpm_init_in_folder() {
   start_time=$(date +%s)
 
-  echo_green "\n🔄 Initializing pnpm project in $(pwd)"
+  __pocket_echo_green "\n🔄 Initializing pnpm project in $(pwd)"
 
-  echo_green "\n1. pnpm init with type="module"" && \
+  __pocket_echo_green "\n1. pnpm init with type="module"" && \
   echo "# $dirname" > README.md && \
   pnpm init && \
   pnpm pkg set type=module && \
-  echo_green "\n2. git init" && \
+  __pocket_echo_green "\n2. git init" && \
   git init && \
-  echo_green "\n3. tsgo --init" && \
+  __pocket_echo_green "\n3. tsgo --init" && \
   tsgo --init && \
-  echo_green "\n4. pnpm install -D @types/node" && \
+  __pocket_echo_green "\n4. pnpm install -D @types/node" && \
   pnpm install -D @types/node && \
-  echo_green "\n5. biome init" && \
+  __pocket_echo_green "\n5. biome init" && \
   biome init && \
-  echo_green '6. Add "node_modules/" to .gitignore\n' && \
+  __pocket_echo_green '6. Add "node_modules/" to .gitignore\n' && \
   echo node_modules/ > .gitignore && \
 
   # modify package.json to include "scripts":
@@ -88,7 +89,7 @@ __pocket_pnpm_init_in_folder() {
   # "postversion": "npm publish && git push && git push --tags"
 
   # 最佳实践 一键发布 `npm run pub:patch` / `npm run pub:minor` / `npm run pub:major`
-  echo_green '7. Modify package.json scripts to add "tsgo --noEmit" and "npm run pub:patch|minor|major" ...\n' && \
+  __pocket_echo_green '7. Modify package.json scripts to add "tsgo --noEmit" and "npm run pub:patch|minor|major" ...\n' && \
   npm pkg set scripts.typecheck="tsgo --noEmit" \
     scripts.test="node --test" \
     scripts.pub:patch="npm version patch" \
@@ -97,9 +98,9 @@ __pocket_pnpm_init_in_folder() {
     scripts.preversion="npm test && npm run typecheck" \
     scripts.postversion="npm publish && git push && git push --tags" && \
 
-  echo_green '8. Modify tsconfig.json and biome.json' && \
+  __pocket_echo_green '8. Modify tsconfig.json and biome.json' && \
   node ~/.pocket/alias-list/pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
-  echo_green '\n9. Done!'
+  __pocket_echo_green '\n9. Done!'
 
   end_time=$(date +%s)
   elapsed=$((end_time - start_time))

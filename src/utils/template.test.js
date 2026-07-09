@@ -22,10 +22,12 @@ it("should list all available alias templates", () => {
     {
       name: "pnpm_init_node_js_pkg",
       description: "快速初始化 Node.js pnpm 项目",
+      usage: "pocket_pnpm_init <文件夹名>",
     },
     {
       name: "pocket_open_npm",
       description: "快速打开 npm 包页",
+      usage: "pocket_open_npm [包名]",
     },
   ])
 })

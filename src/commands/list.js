@@ -42,7 +42,7 @@ export async function listCommand() {
 
   // console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
 
-  /** @type {Record<string, { name: string; description: string; status: string}>} */
+  /** @type {Record<string, { name: string; description: string; usage: string; status: string}>} */
   const all = {}
 
   let index = 1
@@ -54,6 +54,7 @@ export async function listCommand() {
     all[index] = {
       name: alias.name,
       description: alias.description,
+      usage: alias.usage,
       status,
     }
 

@@ -27,6 +27,8 @@ export interface AliasInfo {
   name: string
   /** alias 描述，从 # desc: 读取 */
   description: string
+  /** 使用方式，从 # usage: 读取 */
+  usage: string
   /** 函数体源码 */
   source: string
 }

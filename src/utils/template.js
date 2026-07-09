@@ -12,6 +12,20 @@ const __dirname = dirname(__filename)
 const TEMPLATES_DIR = join(__dirname, "../../templates")
 
 /**
+ * 从 .sh 内容中提取 desc 和 usage
+ * @param {string} content
+ * @returns {{ description: string; usage: string }}
+ */
+function extractMeta(content) {
+  const descMatch = content.match(/^# desc:\s*(.+)/m)
+  const usageMatch = content.match(/^# usage:\s*(.+)/m)
+  return {
+    description: descMatch?.[1] ?? "",
+    usage: usageMatch?.[1] ?? "",
+  }
+}
+
+/**
  * 获取 templates 目录路径
  * @returns {string}
  */
@@ -33,10 +47,11 @@ export function listAvailableAliases() {
       // 单文件模板: templates/foo.sh
       const name = entry.name.replace(/\.sh$/, "")
       const content = readFileSync(join(TEMPLATES_DIR, entry.name), "utf-8")
-      const descMatch = content.match(/^# desc:\s*(.+)/m)
+      const { description, usage } = extractMeta(content)
       result.push({
         name,
-        description: descMatch?.[1] ?? "",
+        description,
+        usage,
         source: content,
       })
     } else if (entry.isDirectory()) {
@@ -45,10 +60,11 @@ export function listAvailableAliases() {
       if (existsSync(indexPath)) {
         const name = entry.name
         const content = readFileSync(indexPath, "utf-8")
-        const descMatch = content.match(/^# desc:\s*(.+)/m)
+        const { description, usage } = extractMeta(content)
         result.push({
           name,
-          description: descMatch?.[1] ?? "",
+          description,
+          usage,
           source: content,
         })
       }
@@ -68,12 +84,11 @@ export function loadTemplate(aliasName) {
   const filePath = join(TEMPLATES_DIR, `${aliasName}.sh`)
   if (existsSync(filePath)) {
     const content = readFileSync(filePath, "utf-8")
-    const descMatch = content.match(/^# desc:\s*(.+)/m)
-    const description = descMatch?.[1]
+    const { description, usage } = extractMeta(content)
     if (!description) {
       throw new Error(`Template ${aliasName} does not have a description`)
     }
-    return { name: aliasName, description, source: content, type: "file" }
+    return { name: aliasName, description, usage, source: content, type: "file" }
   }
 
   // 再试多文件 templates/<name>/index.sh
@@ -81,12 +96,11 @@ export function loadTemplate(aliasName) {
   const indexPath = join(dirPath, "index.sh")
   if (existsSync(indexPath)) {
     const content = readFileSync(indexPath, "utf-8")
-    const descMatch = content.match(/^# desc:\s*(.+)/m)
-    const description = descMatch?.[1]
+    const { description, usage } = extractMeta(content)
     if (!description) {
       throw new Error(`Template ${aliasName} does not have a description`)
     }
-    return { name: aliasName, description, source: content, type: "dir" }
+    return { name: aliasName, description, usage, source: content, type: "dir" }
   }
 
   return null

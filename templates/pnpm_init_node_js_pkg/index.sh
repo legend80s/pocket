@@ -1,4 +1,5 @@
 # desc: 快速初始化 Node.js pnpm 项目
+# usage: pocket_pnpm_init <文件夹名>
 
 
 # 定义颜色

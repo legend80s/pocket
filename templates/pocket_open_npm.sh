@@ -1,4 +1,5 @@
 # desc: 快速打开 npm 包页
+# usage: pocket_open_npm [包名]
 pocket_open_npm() {
   local pkg="$1"
   if [[ -z "$pkg" ]]; then

@@ -207,7 +207,7 @@ export async function addCommand(aliasNames, options) {
     if (!template) {
       console.error(`❌ 未找到模板: ${name}`)
       results.push(
-        /** @type {const} */ ({ name, success: false, error: "模板不存在" }),
+        /** @type {const} */ ({ name, usage: "", success: false, error: "模板不存在" }),
       )
       continue
     }
@@ -225,6 +225,7 @@ export async function addCommand(aliasNames, options) {
       if (!answer.value) {
         results.push({
           name,
+          usage: template.usage,
           success: true,
           data: /** @type {const} */ ({ action: "skipped" }),
         })
@@ -250,6 +251,7 @@ export async function addCommand(aliasNames, options) {
 
       results.push({
         name,
+        usage: template.usage,
         success: true,
         data: /** @type {const} */ ({ action: "updated" }),
       })
@@ -259,6 +261,7 @@ export async function addCommand(aliasNames, options) {
       ensureSourceLine(aliasesFile, name, template.type)
       results.push({
         name,
+        usage: template.usage,
         success: true,
         data: /** @type {const} */ ({ action: "added" }),
       })
@@ -272,10 +275,12 @@ export async function addCommand(aliasNames, options) {
       console.log(`  ❌ ${result.name}: 失败 - ${result.error}`)
     } else if (result.data.action === "skipped") {
       console.log(`  ⏭️  ${result.name}: 已跳过`)
-    } else if (result.data.action === "updated") {
-      console.log(`  🔄 ${result.name}: 已更新`)
-    } else if (result.data.action === "added") {
-      console.log(`  ✅ ${result.name}: 已安装`)
+    } else {
+      const actionText = result.data.action === "updated" ? "已更新" : "已安装"
+      console.log(`  ✅ ${result.name}: ${actionText}`)
+      if (result.usage) {
+        console.log(`     Usage: ${result.usage}`)
+      }
     }
   }
 

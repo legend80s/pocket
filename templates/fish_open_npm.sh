@@ -1,5 +1,9 @@
 # desc: 快速打开 npm 包页
 # usage: fish_open_npm [--site=npmx] [包名]
+
+# desc.en: Quickly open a package's npm page
+# usage.en: fish_open_npm [--site=npmx] [pkg_name]
+
 # @public
 fish_open_npm() {
   local pkg=""

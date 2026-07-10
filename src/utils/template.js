@@ -7,6 +7,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { t } from "./locales.js"
+import { detectLanguage } from "./lang.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -18,11 +19,19 @@ const TEMPLATES_DIR = join(__dirname, "../../templates")
  * @returns {{ description: string; usage: string }}
  */
 function extractMeta(content) {
-  const descMatch = content.match(/^# desc:\s*(.+)/m)
-  const usageMatch = content.match(/^# usage:\s*(.+)/m)
+  const isZh = detectLanguage() === "zh"
+
+  const desc = isZh
+    ? content.match(/^# desc:\s*(.+)/m)?.[1]
+    : (content.match(/^# desc\.en:\s*(.+)/m)?.[1] || content.match(/^# desc:\s*(.+)/m)?.[1])
+
+  const usage = isZh
+    ? content.match(/^# usage:\s*(.+)/m)?.[1]
+    : (content.match(/^# usage\.en:\s*(.+)/m)?.[1] || content.match(/^# usage:\s*(.+)/m)?.[1])
+
   return {
-    description: descMatch?.[1] ?? "",
-    usage: usageMatch?.[1] ?? "",
+    description: desc ?? "",
+    usage: usage ?? "",
   }
 }
 

@@ -1,6 +1,8 @@
 # desc: 快速初始化 Node.js pnpm 项目
 # usage: fish_pnpm_init_node_js_pkg [文件夹名]
 
+# desc.en: Quickly initialize a Node.js pnpm project
+# usage.en: fish_pnpm_init_node_js_pkg [folder_name]
 
 # 定义颜色
 GREEN='\033[0;32m'

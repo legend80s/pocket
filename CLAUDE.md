@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Notice
+
+- No git commit unless you ask and I approve.
+
 ## Commands
 
 ```bash

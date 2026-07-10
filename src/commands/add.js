@@ -21,6 +21,7 @@ import {
   listAvailableAliases,
   loadTemplate,
 } from "../utils/template.js"
+import { t } from "../utils/locales.js"
 
 /**
  * 确保 alias-list 目录存在
@@ -50,8 +51,8 @@ function ensureIndexSh(aliasesFile) {
  */
 function ensureRcSource(rcFile, aliasesFile) {
   if (!existsSync(rcFile)) {
-    console.error(`❌ 未找到配置文件: ${rcFile}`)
-    console.error(`请先创建 ${rcFile} 文件`)
+    console.error(t("add.error.rc_not_found.path", { path: rcFile }))
+    console.error(t("add.error.rc_not_found.create", { path: rcFile }))
     process.exit(1)
   }
 
@@ -154,13 +155,13 @@ export async function addCommand(aliasNames, options) {
   // 1. 检测 shell
   const shell = detectShell()
   if (shell === "unknown") {
-    console.error("❌ 无法检测 Shell 类型，请确保使用 zsh 或 bash")
+    console.error(t("add.error.shell_detect"))
     process.exit(1)
   }
 
   const rcFile = getRcFile(shell)
   if (!rcFile) {
-    console.error("❌ 无法获取 Shell 配置文件路径")
+    console.error(t("add.error.no_rc_file"))
     process.exit(1)
   }
 
@@ -169,14 +170,14 @@ export async function addCommand(aliasNames, options) {
   if (targetAliases.length === 0) {
     const available = listAvailableAliases()
     if (available.length === 0) {
-      console.error("❌ 没有可用的 alias 模板")
+      console.error(t("add.error.no_templates"))
       process.exit(1)
     }
 
     const response = await prompts({
       type: "multiselect",
       name: "selected",
-      message: "选择要安装的 alias（空格选择，回车确认）",
+      message: t("add.prompt.select_aliases"),
       choices: available.map(({ name, description }) => ({
         title: name,
         description,
@@ -187,7 +188,7 @@ export async function addCommand(aliasNames, options) {
 
     targetAliases = response.selected || []
     if (targetAliases.length === 0) {
-      console.log("👋 未选择任何 alias，退出")
+      console.log(t("add.log.no_selection"))
       return
     }
   }
@@ -204,13 +205,13 @@ export async function addCommand(aliasNames, options) {
   for (const name of targetAliases) {
     const template = loadTemplate(name)
     if (!template) {
-      console.error(`❌ 未找到模板: ${name}`)
+      console.error(t("add.error.template_not_found", { name }))
       results.push(
         /** @type {const} */ ({
           name,
           usage: "",
           success: false,
-          error: "模板不存在",
+          error: t("add.error.template_not_exist"),
         }),
       )
       continue
@@ -223,7 +224,7 @@ export async function addCommand(aliasNames, options) {
       const answer = await prompts({
         type: "confirm",
         name: "value",
-        message: `\n⚠️  ${name} 已安装，是否覆盖？`,
+        message: t("add.prompt.confirm_overwrite", { name }),
         initial: false,
       })
       if (!answer.value) {
@@ -245,12 +246,12 @@ export async function addCommand(aliasNames, options) {
 
       const diff = simpleDiff(oldContent, template.source)
       if (diff.hasDiff) {
-        console.log(`\n📋 ${name} 变更：`)
+        console.log(t("add.log.changes_header", { name }))
         for (const line of diff.lines) {
           console.log(`  ${line}`)
         }
       } else {
-        console.log(`\n📋 ${name}: 无差异`)
+        console.log(t("add.log.no_diff", { name }))
       }
 
       results.push({
@@ -273,17 +274,17 @@ export async function addCommand(aliasNames, options) {
   }
 
   // 6. 输出结果
-  console.log("\n📦 安装结果:")
+  console.log(t("add.result.header"))
   for (const result of results) {
     if (!result.success) {
-      console.log(`  ❌ ${result.name}: 失败 - ${result.error}`)
+      console.log(t("add.result.failed", { name: result.name, error: result.error }))
     } else if (result.data.action === "skipped") {
-      console.log(`  ⏭️  ${result.name}: 已跳过`)
+      console.log(t("add.result.skipped", { name: result.name }))
     } else {
-      const actionText = result.data.action === "updated" ? "已更新" : "已安装"
+      const actionText = result.data.action === "updated" ? t("add.result.updated") : t("add.result.added")
       console.log(`  ✅ ${result.name}: ${actionText}`)
       if (result.usage) {
-        console.log(`     Usage: ${result.usage}`)
+        console.log(t("add.result.usage_label", { usage: result.usage }))
       }
     }
   }
@@ -297,12 +298,12 @@ export async function addCommand(aliasNames, options) {
       )
     })
   ) {
-    console.log(`\n✅ 已写入到 ${aliasesFile}`)
+    console.log(t("add.result.written_to", { path: aliasesFile }))
 
     if (!existed) {
-      console.log(`📝 已追加 source 到 ${rcFile}`)
+      console.log(t("add.result.sourced_to", { path: rcFile }))
     }
 
-    console.log(`\n重启终端以生效`)
+    console.log(t("add.result.restart_terminal"))
   }
 }

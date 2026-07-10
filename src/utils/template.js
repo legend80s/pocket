@@ -6,6 +6,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
+import { t } from "./locales.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -86,7 +87,7 @@ export function loadTemplate(aliasName) {
     const content = readFileSync(filePath, "utf-8")
     const { description, usage } = extractMeta(content)
     if (!description) {
-      throw new Error(`Template ${aliasName} does not have a description`)
+      throw new Error(t("template.error.no_description", { name: aliasName }))
     }
     return { name: aliasName, description, usage, source: content, type: "file" }
   }
@@ -98,7 +99,7 @@ export function loadTemplate(aliasName) {
     const content = readFileSync(indexPath, "utf-8")
     const { description, usage } = extractMeta(content)
     if (!description) {
-      throw new Error(`Template ${aliasName} does not have a description`)
+      throw new Error(t("template.error.no_description", { name: aliasName }))
     }
     return { name: aliasName, description, usage, source: content, type: "dir" }
   }

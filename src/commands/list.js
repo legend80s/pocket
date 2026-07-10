@@ -6,6 +6,7 @@
 import { existsSync } from "node:fs"
 import { getConfig } from "../utils/config.js"
 import { listAvailableAliases } from "../utils/template.js"
+import { t } from "../utils/locales.js"
 
 /**
  * 检查 alias 是否已安装
@@ -30,7 +31,7 @@ export async function listCommand() {
   const available = listAvailableAliases()
 
   if (available.length === 0) {
-    console.log("📭 没有可用的 alias 模板")
+    console.log(t("list.error.no_templates"))
     return
   }
 
@@ -52,7 +53,7 @@ export async function listCommand() {
 
   for (const alias of available) {
     const installed = installedMap[alias.name] ?? false
-    const status = installed ? "✅ 已安装" : "⬜ 未安装"
+    const status = installed ? t("list.status.installed") : t("list.status.not_installed")
 
     all[index] = {
       name: alias.name,
@@ -66,6 +67,6 @@ export async function listCommand() {
 
   console.table(all)
 
-  console.log(`\n📁 安装路径: ${aliasesFile}`)
-  console.log(`\n💡 运行 pelican catch <fish> 安装`)
+  console.log(t("list.footer.path", { path: aliasesFile }))
+  console.log(t("list.footer.hint"))
 }

@@ -9,6 +9,7 @@ import { parseArgs } from "node:util"
 import pkg from "../package.json" with { type: "json" }
 import { addCommand } from "./commands/add.js"
 import { listCommand } from "./commands/list.js"
+import { t } from "./utils/locales.js"
 
 // console.log("pkg:", pkg)
 
@@ -18,23 +19,7 @@ const VERSION = pkg.version
  * 显示帮助信息
  */
 function showHelp() {
-  console.log(`
-> 🧰 pelican - 从口袋里掏出你的专属命令行工具
-
-## 用法:
-  pelican catch <alias...>    安装一个或多个 alias
-  pelican list                列出所有 alias
-  pelican --version, -v       显示版本号
-  pelican --help, -h          显示帮助信息
-
-## 示例:
-  pelican catch                               交互式选择安装
-  pelican catch <fish_name1>                  安装一个
-  pelican catch <fish_name1> <fish_name2> ... 批量安装
-
-文档:
-  https://github.com/legend80s/pocket
-  `)
+  console.log(t("help.text"))
 }
 
 /**
@@ -98,7 +83,7 @@ async function main() {
 
   // --version 或 -v
   if (version) {
-    console.log(`pelican v${VERSION}`)
+    console.log(t("version.label", { version: VERSION }))
     return
   }
 
@@ -120,6 +105,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("❌ 发生错误:", err.message)
+  console.error(t("error.generic", { message: err.message }))
   process.exit(1)
 })

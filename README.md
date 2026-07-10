@@ -79,3 +79,20 @@ Remove or comment the `source` line below then open a new terminal tab.
 ```
 
 Feel free to remove `~/.pelican` directory (optional).
+
+## Development
+
+```bash
+# Run locally
+node bin/pocket.js <command>
+
+# Force locale for testing
+LANG=en node bin/pocket.js list    # English output
+LANG=zh node bin/pocket.js list    # Chinese output
+
+# Run tests
+npm test
+
+# Type check
+npm run typecheck
+```

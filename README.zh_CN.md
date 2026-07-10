@@ -79,3 +79,20 @@ source ~/.pelican/aliases/index.sh
 ```
 
 最后删除 `~/.pelican` 目录（可选）。
+
+## 开发
+
+```bash
+# 本地运行
+node bin/pocket.js <command>
+
+# 强制切换语言测试
+LANG=en node bin/pocket.js list    # 英文输出
+LANG=zh node bin/pocket.js list    # 中文输出
+
+# 运行测试
+npm test
+
+# 类型检查
+npm run typecheck
+```

@@ -6,7 +6,7 @@
 
 <p align="center">English | <a href="./README.zh_CN.md">中文</a></p>
 
-> 🐦 The **pelican** is a bird skilled at catching fish. A trained pelican will deliver all its catch to its owner —
+> 🐦 The **鹈鹕 [`tíhú`] pelican** is a bird skilled at catching fish. A trained pelican will deliver all its catch to its owner —
 >
 > and `Pelican` delivers every alias to you.
 >
@@ -36,7 +36,7 @@ pelican catch
 
 ## Usage — Go fishing
 
-```bash
+```md
 # Browse all aliases and find what interests you.
 pelican list
 
@@ -53,7 +53,7 @@ pelican catch <fish_name1> <fish_name2> ...
 pelican --help
 ```
 
-## Installation File Structure — The Pouch
+## Installation File Structure — The Pelican Pouch
 
 ```text
 ~/.pelican

@@ -14,7 +14,8 @@
   },
   "bin": {
     "pelican": "bin/pocket.js",
-    "鹈鹕": "bin/pocket.js"
+    "鹈鹕": "bin/pocket.js",
+    "tihu": "bin/pocket.js"
   },
   "files": [
     "bin/",

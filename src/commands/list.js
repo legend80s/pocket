@@ -46,25 +46,28 @@ export async function listCommand() {
 
   // console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
 
-  /** @type {Record<string, { name: string; description: string; usage: string; status: string}>} */
+  /** @type {Record<string, { 'Fish (alias)': string; Description: string; Usage: string; Status: string}>} */
   const all = {}
 
   let index = 1
 
   for (const alias of available) {
     const installed = installedMap[alias.name] ?? false
-    const status = installed ? t("list.status.installed") : t("list.status.not_installed")
+    const status = installed
+      ? t("list.status.installed")
+      : t("list.status.not_installed")
 
     all[index] = {
-      name: alias.name,
-      description: alias.description,
-      usage: alias.usage,
-      status,
+      "Fish (alias)": alias.name,
+      Description: alias.description,
+      Usage: alias.usage,
+      Status: status,
     }
 
     index += 1
   }
 
+  console.log()
   console.table(all)
 
   console.log(t("list.footer.path", { path: aliasesFile }))

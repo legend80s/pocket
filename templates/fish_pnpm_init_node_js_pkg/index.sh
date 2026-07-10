@@ -1,5 +1,5 @@
 # desc: 快速初始化 Node.js pnpm 项目
-# usage: pocket_pnpm_init_node_js_pkg [文件夹名]
+# usage: fish_pnpm_init_node_js_pkg [文件夹名]
 
 
 # 定义颜色
@@ -8,20 +8,20 @@ BOLD_GREEN='\033[1;32m'
 NC='\033[0m'
 
 # 输出绿色文字
-__pocket_echo_green() {
+__fish_echo_green() {
   echo -e "${GREEN}$1${NC}"
 }
 
 dirname=''
 
 # @public
-pocket_pnpm_init_node_js_pkg() {
-  __pocket_md_and_cd "$@" && __pocket_pnpm_init_in_folder
+fish_pnpm_init_node_js_pkg() {
+  __fish_md_and_cd "$@" && __fish_pnpm_init_in_folder
 }
 
 # 功能：创建文件夹并进入
 # 用法：mcd [文件夹名]
-__pocket_md_and_cd() {
+__fish_md_and_cd() {
   dirname="$1"
 
   # If no argument provided, prompt for input
@@ -59,24 +59,24 @@ __pocket_md_and_cd() {
   fi
 }
 
-__pocket_pnpm_init_in_folder() {
+__fish_pnpm_init_in_folder() {
   start_time=$(date +%s)
 
-  __pocket_echo_green "\n🔄 Initializing pnpm project in $(pwd)"
+  __fish_echo_green "\n🔄 Initializing pnpm project in $(pwd)"
 
-  __pocket_echo_green "\n1. pnpm init with type="module"" && \
+  __fish_echo_green "\n1. pnpm init with type="module"" && \
   echo "# $dirname" > README.md && \
   pnpm init && \
   pnpm pkg set type=module && \
-  __pocket_echo_green "\n2. git init" && \
+  __fish_echo_green "\n2. git init" && \
   git init && \
-  __pocket_echo_green "\n3. tsgo --init" && \
+  __fish_echo_green "\n3. tsgo --init" && \
   tsgo --init && \
-  __pocket_echo_green "\n4. pnpm install -D @types/node" && \
+  __fish_echo_green "\n4. pnpm install -D @types/node" && \
   pnpm install -D @types/node && \
-  __pocket_echo_green "\n5. biome init" && \
+  __fish_echo_green "\n5. biome init" && \
   biome init && \
-  __pocket_echo_green '6. Add "node_modules/" to .gitignore\n' && \
+  __fish_echo_green '6. Add "node_modules/" to .gitignore\n' && \
   echo node_modules/ > .gitignore && \
 
   # modify package.json to include "scripts":
@@ -89,7 +89,7 @@ __pocket_pnpm_init_in_folder() {
   # "postversion": "npm publish && git push && git push --tags"
 
   # 最佳实践 一键发布 `npm run pub:patch` / `npm run pub:minor` / `npm run pub:major`
-  __pocket_echo_green '7. Modify package.json scripts to add "tsgo --noEmit" and "npm run pub:patch|minor|major" ...\n' && \
+  __fish_echo_green '7. Modify package.json scripts to add "tsgo --noEmit" and "npm run pub:patch|minor|major" ...\n' && \
   npm pkg set scripts.typecheck="tsgo --noEmit" \
     scripts.test="node --test" \
     scripts.pub:patch="npm version patch" \
@@ -98,9 +98,9 @@ __pocket_pnpm_init_in_folder() {
     scripts.preversion="npm test && npm run typecheck" \
     scripts.postversion="npm publish && git push && git push --tags" && \
 
-  __pocket_echo_green '8. Modify tsconfig.json and biome.json' && \
-  node ~/.pocket/alias-list/pocket_pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
-  __pocket_echo_green '\n9. Done!'
+  __fish_echo_green '8. Modify tsconfig.json and biome.json' && \
+  node ./modify.mjs "$PWD" && \
+  __fish_echo_green '\n9. Done!'
 
   end_time=$(date +%s)
   elapsed=$((end_time - start_time))

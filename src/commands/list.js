@@ -1,5 +1,5 @@
 /**
- * pocket list 命令
+ * pelican list 命令
  * @import { InstalledAlias } from '../types.js'
  */
 
@@ -15,7 +15,9 @@ import { listAvailableAliases } from "../utils/template.js"
  */
 function isInstalled(aliasDir, name) {
   // 单文件: <name>.sh, 多文件目录: <name>/
-  return existsSync(`${aliasDir}/${name}.sh`) || existsSync(`${aliasDir}/${name}`)
+  return (
+    existsSync(`${aliasDir}/${name}.sh`) || existsSync(`${aliasDir}/${name}`)
+  )
 }
 
 /**
@@ -65,5 +67,5 @@ export async function listCommand() {
   console.table(all)
 
   console.log(`\n📁 安装路径: ${aliasesFile}`)
-  console.log(`\n💡 运行 pocket add <alias> 安装`)
+  console.log(`\n💡 运行 pelican catch <fish> 安装`)
 }

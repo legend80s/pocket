@@ -11,11 +11,11 @@ export type ParsedArgs = {
  * Pocket 配置
  */
 export interface PocketConfig {
-  /** Pocket 目录路径，默认为 ~/.pocket */
+  /** Pocket 目录路径，默认为 ~/.pelican */
   pocketDir: string
-  /** alias 存放目录，默认为 ~/.pocket/alias-list */
+  /** alias 存放目录，默认为 ~/.pelican/alias-list */
   aliasDir: string
-  /** alias 索引文件路径，默认为 ~/.pocket/alias-list/index.sh */
+  /** alias 索引文件路径，默认为 ~/.pelican/alias-list/index.sh */
   aliasesFile: string
 }
 

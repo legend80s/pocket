@@ -1,5 +1,5 @@
 /**
- * pocket add 命令
+ * pelican add 命令
  * @import { AddOptions } from '../types.js'
  */
 
@@ -14,6 +14,7 @@ import {
 } from "node:fs"
 import prompts from "prompts"
 import { detectShell, getConfig, getRcFile } from "../utils/config.js"
+import { uniqueHomeDir } from "../utils/constants.js"
 import { simpleDiff } from "../utils/diff.js"
 import {
   getTemplatesDir,
@@ -37,7 +38,7 @@ function ensureAliasDir(aliasDir) {
  */
 function ensureIndexSh(aliasesFile) {
   if (!existsSync(aliasesFile)) {
-    writeFileSync(aliasesFile, "# pocket alias index\n", "utf-8")
+    writeFileSync(aliasesFile, "# pelican alias index\n", "utf-8")
   }
 }
 
@@ -58,7 +59,7 @@ function ensureRcSource(rcFile, aliasesFile) {
   const sourceLine = `source '${aliasesFile}'`
 
   if (!content.includes(sourceLine)) {
-    appendFileSync(rcFile, `\n# pocket: source\n${sourceLine}\n`)
+    appendFileSync(rcFile, `\n# pelican: source\n${sourceLine}\n`)
     return false
   }
   return true
@@ -132,8 +133,8 @@ function removeTarget(aliasDir, name, type) {
 function ensureSourceLine(aliasesFile, name, type) {
   const sourceLine =
     type === "file"
-      ? `source ~/.pocket/alias-list/${name}.sh`
-      : `source ~/.pocket/alias-list/${name}/index.sh`
+      ? `source ~/.${uniqueHomeDir}/alias-list/${name}.sh`
+      : `source ~/.${uniqueHomeDir}/alias-list/${name}/index.sh`
 
   const content = readFileSync(aliasesFile, "utf-8")
   if (!content.includes(sourceLine)) {

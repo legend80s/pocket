@@ -1,4 +1,4 @@
-<!-- <h1 hidden align="center">Pocket</h1> -->
+<!-- <h1 hidden align="center">Pelican</h1> -->
 
 <p align="center">
   <img src="assets/banner.svg" alt="Pelican: A shell alias library that follows the shadcn approach" width="600" />

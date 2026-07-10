@@ -1,1 +1,1 @@
-export const uniqueHomeDir = "pocket"
+export const uniqueHomeDir = "pelican"

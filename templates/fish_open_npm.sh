@@ -1,6 +1,7 @@
 # desc: 快速打开 npm 包页
-# usage: pocket_open_npm [--site=npmx] [包名]
-pocket_open_npm() {
+# usage: fish_open_npm [--site=npmx] [包名]
+# @public
+fish_open_npm() {
   local pkg=""
   local site="npmjs"
 

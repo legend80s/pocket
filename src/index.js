@@ -19,19 +19,18 @@ const VERSION = pkg.version
  */
 function showHelp() {
   console.log(`
-> 🧰 pocket - 从口袋里掏出你的专属命令行工具
+> 🧰 pelican - 从口袋里掏出你的专属命令行工具
 
 ## 用法:
-  pocket add <alias...>      安装一个或多个 alias
-  pocket list                列出所有 alias
-  pocket --version, -v       显示版本号
-  pocket --help, -h          显示帮助信息
+  pelican catch <alias...>    安装一个或多个 alias
+  pelican list                列出所有 alias
+  pelican --version, -v       显示版本号
+  pelican --help, -h          显示帮助信息
 
 ## 示例:
-  pocket add opennpm         安装 opennpm
-  pocket add opennpm opengh  批量安装
-  pocket add                 交互式选择安装
-  pocket add opennpm --force 强制覆盖
+  pelican catch                               交互式选择安装
+  pelican catch <fish_name1>                  安装一个
+  pelican catch <fish_name1> <fish_name2> ... 批量安装
 
 文档:
   https://github.com/legend80s/pocket
@@ -99,7 +98,7 @@ async function main() {
 
   // --version 或 -v
   if (version) {
-    console.log(`pocket v${VERSION}`)
+    console.log(`pelican v${VERSION}`)
     return
   }
 
@@ -110,7 +109,7 @@ async function main() {
   }
 
   // add 命令
-  if (command === "add") {
+  if (command && ["add", "catch", "捕鱼", "捕捉"].includes(command)) {
     await addCommand(aliases, options)
     return
   }

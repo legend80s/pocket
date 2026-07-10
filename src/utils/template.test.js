@@ -20,14 +20,14 @@ it("should list all available alias templates", () => {
 
   assert.deepStrictEqual(allWithoutSources, [
     {
-      name: "pocket_open_npm",
+      name: "fish_open_npm",
       description: "快速打开 npm 包页",
-      usage: "pocket_open_npm [--site=npmx] [包名]",
+      usage: "fish_open_npm [--site=npmx] [包名]",
     },
     {
-      name: "pocket_pnpm_init_node_js_pkg",
+      name: "fish_pnpm_init_node_js_pkg",
       description: "快速初始化 Node.js pnpm 项目",
-      usage: "pocket_pnpm_init_node_js_pkg [文件夹名]",
+      usage: "fish_pnpm_init_node_js_pkg [文件夹名]",
     },
   ])
 })

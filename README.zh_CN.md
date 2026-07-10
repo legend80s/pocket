@@ -6,17 +6,17 @@
 
 <p align="center"><a href="./README.md">English</a> | 中文</p>
 
-> 「🐦 鹈鹕 tíhú」是一种擅长「捕鱼」的鸟类，训练有素的鹈鹕会将所有鱼获交给主人。
+> 「**🐦 鹈鹕 tíhú**」是一种擅长捕鱼的鸟类，训练有素的鹈鹕会将所有鱼获交给主人。
 >
-> 从鹈鹕鼓鼓囊囊的喉囊中掏出你的专属命令行工具吧！
+> 从**鹈鹕**鼓鼓囊囊的喉囊中掏出你的专属命令行工具吧！
 
 一个 shell alias 库。类似 shadcn，通过复制安装。
 
 你可以尽情修改成自己想要的样子 — you own the code, just like shadcn.
 
-## 安装 —— 免费专属鹈鹕
+## 安装 —— 领养专属鹈鹕
 
-```bash
+```md
 # 使用 pnpx（推荐）
 pnpx @legend80s/pelican@latest catch # 注意：`@latest` 建议增加
 
@@ -34,21 +34,23 @@ pelican catch
 
 ## 使用方式 —— 捕鱼
 
+> 以下命令均以 `tihu` 为例，你也可以使用 `pelican`，二者等价，详见 package.json [bin](./package.json#L16-L18)。
+
 ```md
 # 查看所有 alias
-pelican list
+tihu list
 
 # 交互式选择
-pelican catch
+tihu catch
 
 # 安装单个
-pelican catch <fish_name>
+tihu catch <fish_name>
 
 # 批量安装
-pelican catch <fish_name1> <fish_name2> ...
+tihu catch <fish_name1> <fish_name2> ...
 
 # 帮助
-pelican --help
+tihu --help
 ```
 
 ## 安装文件结构 —— 喉囊

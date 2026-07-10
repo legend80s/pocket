@@ -1,7 +1,7 @@
 <!-- <h1 hidden align="center">Pelican</h1> -->
 
 <p align="center">
-  <img src="assets/banner.svg" alt="Pelican: A shell alias library that follows the shadcn approach" width="600" />
+  <img src="https://raw.githubusercontent.com/legend80s/pocket/refs/heads/main/assets/banner.svg" alt="Pelican: A shell alias library that follows the shadcn approach" width="600" />
 </p>
 
 <p align="center">English | <a href="./README.zh_CN.md">中文</a></p>

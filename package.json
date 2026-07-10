@@ -38,6 +38,11 @@
   ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legend80s/pocket.git"
+  },
+  "homepage": "https://github.com/legend80s/pocket",
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.1.0",

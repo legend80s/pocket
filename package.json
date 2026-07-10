@@ -1,6 +1,6 @@
 {
   "name": "@legend80s/pelican",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Alias pocket: A shell alias library that follows the shadcn approach — installed via copy source code, not dependency. Feel free to customize it — you own the code, just like shadcn.",
   "main": "index.js",
   "scripts": {

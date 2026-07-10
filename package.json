@@ -1,5 +1,5 @@
 {
-  "name": "@legend80s/pocket",
+  "name": "@legend80s/pelican",
   "version": "0.0.3",
   "description": "Alias pocket: A shell alias library that follows the shadcn approach — installed via copy source code, not dependency. Feel free to customize it — you own the code, just like shadcn.",
   "main": "index.js",
@@ -13,7 +13,8 @@
     "postversion": "npm publish && git push && git push --tags"
   },
   "bin": {
-    "pocket": "bin/pocket.js"
+    "pelican": "bin/pocket.js",
+    "鹈鹕": "bin/pocket.js"
   },
   "files": [
     "bin/",

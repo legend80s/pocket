@@ -55,16 +55,17 @@ export async function listCommand(log = true) {
     index += 1
   }
 
-  log && console.log()
-  log && console.table(all)
+  if (log) {
+    console.log()
+    console.table(all)
 
-  log &&
     console.log(
       t("list.footer.path", {
         path: styleText(["underline", "green"], aliasesFile),
       }),
     )
-  log && console.log(t("list.footer.hint"))
+    console.log(t("list.footer.hint"))
+  }
 
   return { all: available, installed: installedMap }
 }

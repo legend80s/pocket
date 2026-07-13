@@ -30,7 +30,7 @@ pelican catch
 | Fish (Alias) | 描述 | 如何食用 |
 | --- | --- | --- |
 | `fish_open_npm` | 快速打开 npm 包页 | `fish_open_npm [包名]` |
-| `fish_open_repo` | 打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台。 | `fish_open_repo` |
+| `fish_open_repo` | 打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台 | `fish_open_repo` |
 | `fish_pnpm_init_node_js_pkg` | 快速初始化 Node.js pnpm 项目 | `fish_pnpm_init_node_js_pkg [文件夹名]` |
 
 ## 使用方式 —— 捕鱼

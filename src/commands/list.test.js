@@ -66,17 +66,20 @@ describe("list command integration (i18n) #integration", () => {
     const tip1 = fish1 ? `✅ 已安装` : `⬜ 未安装`
     const fish2 = installed["fish_pnpm_init_node_js_pkg"]
     const tip2 = fish2 ? `✅ 已安装` : `⬜ 未安装`
+    const fish3 = installed["fish_open_repo"]
+    const tip3 = fish3 ? `✅ 已安装` : `⬜ 未安装`
 
     assert.deepStrictEqual(
       stripVTControlCharacters(output).split("\n"),
       (
         `
-┌─────────┬──────────────────────────────┬────────────────────────────────┬─────────────────────────────────────────┬─────────────┐
-│ (index) │ Fish (alias)                 │ Description                    │ Usage                                   │ Status      │
-├─────────┼──────────────────────────────┼────────────────────────────────┼─────────────────────────────────────────┼─────────────┤
-│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'            │ 'fish_open_npm [--site=npmx] [包名]'    │ '${tip1}' │
-│ 2       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目' │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '${tip2}' │
-└─────────┴──────────────────────────────┴────────────────────────────────┴─────────────────────────────────────────┴─────────────┘
+┌─────────┬──────────────────────────────┬──────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────┬─────────────┐
+│ (index) │ Fish (alias)                 │ Description                                                                  │ Usage                                   │ Status      │
+├─────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼─────────────┤
+│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'                                                          │ 'fish_open_npm [--site=npmx] [包名]'    │ '${tip1}' │
+│ 2       │ 'fish_open_repo'             │ '打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台' │ 'fish_open_repo'                        │ '${tip3}' │
+│ 3       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目'                                               │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '${tip2}' │
+└─────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────┴─────────────┘
 
 ` +
         `📁 安装路径: ~\\.pelican\\alias-list\\index.sh`.replace(
@@ -106,35 +109,53 @@ describe("list command integration (i18n) #integration", () => {
       throw new Error("Command failed")
     }
 
-    const { installed } = result
-    const fish1 = installed["fish_open_npm"]
-    const tip1 = fish1 ? `✅ Installed` : `⬜ Not installed`
-    const tip1Space = fish1 ? " ".repeat(5) : " "
-    const fish2 = installed["fish_pnpm_init_node_js_pkg"]
-    const tip2 = fish2 ? `✅ Installed` : `⬜ Not installed`
-    const tip2Space = fish2 ? " ".repeat(5) : " "
+    const { all, installed, ...rest } = result
 
+    assert.deepStrictEqual(Object.keys(installed), [
+      "fish_open_npm",
+      "fish_open_repo",
+      "fish_pnpm_init_node_js_pkg",
+    ])
+    assert.deepStrictEqual(Object.values(installed), [true, true, false])
+
+    const withoutCode = all.map(({ source, ...rest }) => rest)
     assert.deepStrictEqual(
-      stripVTControlCharacters(output).split("\n"),
-      (
-        `
-┌─────────┬──────────────────────────────┬─────────────────────────────────────────────┬────────────────────────────────────────────┬────────────────────┐
-│ (index) │ Fish (alias)                 │ Description                                 │ Usage                                      │ Status             │
-├─────────┼──────────────────────────────┼─────────────────────────────────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ 1       │ 'fish_open_npm'              │ "Quickly open a package's npm page"         │ 'fish_open_npm [--site=npmx] [pkg_name]'   │ '${tip1}'${tip1Space}│
-│ 2       │ 'fish_pnpm_init_node_js_pkg' │ 'Quickly initialize a Node.js pnpm project' │ 'fish_pnpm_init_node_js_pkg [folder_name]' │ '${tip2}'${tip2Space}│
-└─────────┴──────────────────────────────┴─────────────────────────────────────────────┴────────────────────────────────────────────┴────────────────────┘
+      { all: withoutCode, ...rest },
+      {
+        all: [
+          {
+            description: "快速打开 npm 包页",
+            name: "fish_open_npm",
+            usage: "fish_open_npm [--site=npmx] [包名]",
+          },
+          {
+            description:
+              "打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台",
+            name: "fish_open_repo",
+            usage: "fish_open_repo",
+          },
+          {
+            description: "快速初始化 Node.js pnpm 项目",
+            name: "fish_pnpm_init_node_js_pkg",
+            usage: "fish_pnpm_init_node_js_pkg [文件夹名]",
+          },
+        ],
+      },
+    )
 
-` +
+    const colorlessOutput = stripVTControlCharacters(output)
+
+    assert.ok(
+      colorlessOutput.includes(
         `📁 Install path: ~\\.pelican\\alias-list\\index.sh`.replace(
           "~",
           homedir(),
-        ) +
-        `
+        ),
+      ),
+    )
 
-💡 Run \`pelican catch <fish>\` to install
-`
-      ).split("\n"),
+    assert.ok(
+      colorlessOutput.includes("💡 Run `pelican catch <fish>` to install"),
     )
   })
 

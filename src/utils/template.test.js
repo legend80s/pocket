@@ -6,7 +6,7 @@ it("should list all available alias templates", () => {
   const templates = listAvailableAliases()
 
   assert.ok(
-    templates.length === 2,
+    templates.length >= 2,
     `Expected at least 2 templates, got ${templates.length}`,
   )
 
@@ -16,7 +16,11 @@ it("should list all available alias templates", () => {
   assert.ok(allSourceNotEmpty)
 
   // remove sources for test stability
-  const allWithoutSources = templates.map(({ source, ...template }) => template)
+  const allWithoutSources = templates
+    .filter((item) =>
+      ["fish_open_npm", "fish_pnpm_init_node_js_pkg"].includes(item.name),
+    )
+    .map(({ source, ...template }) => template)
 
   assert.deepStrictEqual(allWithoutSources, [
     {

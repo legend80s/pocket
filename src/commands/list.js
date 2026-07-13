@@ -16,6 +16,8 @@ import { listAvailableAliases } from "../utils/template.js"
  * @returns {boolean}
  */
 function isInstalled(aliasDir, name) {
+  // console.log("process.env.TESTING:", process.env.TESTING)
+  // return false
   // 单文件: <name>.sh, 多文件目录: <name>/
   return (
     existsSync(`${aliasDir}/${name}.sh`) || existsSync(`${aliasDir}/${name}`)
@@ -25,7 +27,7 @@ function isInstalled(aliasDir, name) {
 /**
  * 执行 list 命令
  */
-export async function listCommand() {
+export async function listCommand(log = true) {
   const { aliasDir, aliasesFile } = getConfig()
 
   // 获取所有可用 alias
@@ -68,13 +70,16 @@ export async function listCommand() {
     index += 1
   }
 
-  console.log()
-  console.table(all)
+  log && console.log()
+  log && console.table(all)
 
-  console.log(
-    t("list.footer.path", {
-      path: styleText(["underline", "green"], aliasesFile),
-    }),
-  )
-  console.log(t("list.footer.hint"))
+  log &&
+    console.log(
+      t("list.footer.path", {
+        path: styleText(["underline", "green"], aliasesFile),
+      }),
+    )
+  log && console.log(t("list.footer.hint"))
+
+  return { all: available, installed: installedMap }
 }

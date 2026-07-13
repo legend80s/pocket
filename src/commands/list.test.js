@@ -3,6 +3,7 @@ import { execSync } from "node:child_process"
 import { homedir } from "node:os"
 import { after, describe, it, mock } from "node:test"
 import { stripVTControlCharacters } from "node:util"
+import { listCommand } from "./list.js"
 
 const ORIG_LANG = process.env.LANG
 
@@ -37,7 +38,6 @@ describe("list command integration (i18n) #integration", () => {
 
     try {
       // Dynamic import to get fresh module instance
-      const { listCommand } = await import("./list.js")
       await listCommand()
     } finally {
       process.stdout.write = origWrite
@@ -55,6 +55,18 @@ describe("list command integration (i18n) #integration", () => {
     }).toString("utf-8")
     // console.log("output:", output)
 
+    const result = await listCommand(false)
+
+    if (!result) {
+      throw new Error("Command failed")
+    }
+
+    const { installed } = result
+    const fish1 = installed["fish_open_npm"]
+    const tip1 = fish1 ? `✅ 已安装` : `⬜ 未安装`
+    const fish2 = installed["fish_pnpm_init_node_js_pkg"]
+    const tip2 = fish2 ? `✅ 已安装` : `⬜ 未安装`
+
     assert.deepStrictEqual(
       stripVTControlCharacters(output).split("\n"),
       (
@@ -62,8 +74,8 @@ describe("list command integration (i18n) #integration", () => {
 ┌─────────┬──────────────────────────────┬────────────────────────────────┬─────────────────────────────────────────┬─────────────┐
 │ (index) │ Fish (alias)                 │ Description                    │ Usage                                   │ Status      │
 ├─────────┼──────────────────────────────┼────────────────────────────────┼─────────────────────────────────────────┼─────────────┤
-│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'            │ 'fish_open_npm [--site=npmx] [包名]'    │ '⬜ 未安装' │
-│ 2       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目' │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '⬜ 未安装' │
+│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'            │ 'fish_open_npm [--site=npmx] [包名]'    │ '${tip1}' │
+│ 2       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目' │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '${tip2}' │
 └─────────┴──────────────────────────────┴────────────────────────────────┴─────────────────────────────────────────┴─────────────┘
 
 ` +
@@ -88,6 +100,20 @@ describe("list command integration (i18n) #integration", () => {
     }).toString("utf-8")
     // console.log("output:", output)
 
+    const result = await listCommand(false)
+
+    if (!result) {
+      throw new Error("Command failed")
+    }
+
+    const { installed } = result
+    const fish1 = installed["fish_open_npm"]
+    const tip1 = fish1 ? `✅ Installed` : `⬜ Not installed`
+    const tip1Space = fish1 ? " ".repeat(5) : " "
+    const fish2 = installed["fish_pnpm_init_node_js_pkg"]
+    const tip2 = fish2 ? `✅ Installed` : `⬜ Not installed`
+    const tip2Space = fish2 ? " ".repeat(5) : " "
+
     assert.deepStrictEqual(
       stripVTControlCharacters(output).split("\n"),
       (
@@ -95,8 +121,8 @@ describe("list command integration (i18n) #integration", () => {
 ┌─────────┬──────────────────────────────┬─────────────────────────────────────────────┬────────────────────────────────────────────┬────────────────────┐
 │ (index) │ Fish (alias)                 │ Description                                 │ Usage                                      │ Status             │
 ├─────────┼──────────────────────────────┼─────────────────────────────────────────────┼────────────────────────────────────────────┼────────────────────┤
-│ 1       │ 'fish_open_npm'              │ "Quickly open a package's npm page"         │ 'fish_open_npm [--site=npmx] [pkg_name]'   │ '⬜ Not installed' │
-│ 2       │ 'fish_pnpm_init_node_js_pkg' │ 'Quickly initialize a Node.js pnpm project' │ 'fish_pnpm_init_node_js_pkg [folder_name]' │ '⬜ Not installed' │
+│ 1       │ 'fish_open_npm'              │ "Quickly open a package's npm page"         │ 'fish_open_npm [--site=npmx] [pkg_name]'   │ '${tip1}'${tip1Space}│
+│ 2       │ 'fish_pnpm_init_node_js_pkg' │ 'Quickly initialize a Node.js pnpm project' │ 'fish_pnpm_init_node_js_pkg [folder_name]' │ '${tip2}'${tip2Space}│
 └─────────┴──────────────────────────────┴─────────────────────────────────────────────┴────────────────────────────────────────────┴────────────────────┘
 
 ` +

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # desc: 快速打开 npm 包页
 # usage: fish_open_npm [--site=npmx] [包名]
 

@@ -89,12 +89,12 @@ async function main() {
   const content = `#!/bin/bash
 
 # desc: ${descIsZh ? desc : descPlaceholder}
-# usage: ${usageIsZh ? usage : usagePlaceholder}
+# usage: ${usage || usagePlaceholder}
 
 # desc.en: ${!descIsZh ? desc : descPlaceholder}
-# usage.en: ${!usageIsZh ? usage : usagePlaceholder}
+# usage.en: ${usage || usagePlaceholder}
 
-@private
+# @private
 __fish_is_zh() {
   [[ "\${LANG:-}" =~ ^zh ]]
 }

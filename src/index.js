@@ -83,7 +83,7 @@ async function main() {
 
   // --version 或 -v
   if (version) {
-    console.log(t("version.label", { version: VERSION }))
+    console.log(`\n${t("version.label", { version: VERSION })}`)
     return
   }
 

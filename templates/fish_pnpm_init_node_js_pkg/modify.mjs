@@ -7,7 +7,7 @@ import { styleText } from "node:util"
 // process.argv: [
 //   'C:\\Program Files\\nodejs\\node.exe',
 //   'C:\\Users\\foo\\.pelican\\modify.mjs',
-//   'D:/workspace/nanhu/model-console-frontend2/temp'
+//   'D:/workspace/bar/project/temp'
 // ]
 // console.log('process.argv:', process.argv);
 

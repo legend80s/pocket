@@ -122,8 +122,12 @@ Docs:
 
 // ── Select locale ─────────────────────────────────
 
-/** @type {Record<string, string>} */
-const LANG = detectLanguage() === "zh" ? zh : en
+/**
+ * @returns {Record<string, string>}
+ */
+function getLocale() {
+  return (detectLanguage() === "zh" ? zh : en)
+}
 
 /**
  * 翻译函数
@@ -132,7 +136,8 @@ const LANG = detectLanguage() === "zh" ? zh : en
  * @returns {string}
  */
 export function t(key, vars = {}) {
-  let template = LANG[key]
+  const lang = /** @type {Record<string, string>} */ (getLocale())
+  let template = lang[key]
   if (template === undefined) {
     return key
   }

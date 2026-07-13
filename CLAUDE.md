@@ -15,8 +15,11 @@ npm test
 # Run a single test file
 node --test src/utils/template.test.js
 
-# Type check (tsgo wraps tsc with checkJs)
-npm run typecheck
+# Test tags — only integration tests use #integration tag; unit tests don't need one
+node --test --test-name-pattern="#integration"
+
+# Type check (tsgo is global, no pnpm exec needed)
+tsgo --noEmit
 
 # Lint & format (biome)
 pnpm biome check src/
@@ -71,7 +74,14 @@ The rc file (`~/.zshrc`/`~/.bashrc`) has one line: `source ~/.pocket/alias-list/
 | Single-file | `templates/foo.sh` | `foo` (filename without `.sh`) |
 | Multi-file | `templates/bar/index.sh` + support files | `bar` (directory name) |
 
-Each template must have a `# desc: <description>` line in the `.sh` file.
+Each template must have a `# desc: <description>` line in the `.sh` file. For i18n, add `# desc.en: <english>` and `# usage.en: <english>` alongside.
+
+### i18n
+
+All CLI output is internationalized via `src/utils/locales.js`:
+- `LANG=en` → English, `LANG=zh` → Chinese
+- Template metadata (`# desc:` / `# usage:`) also supports `# desc.en:` / `# usage.en:`
+- Shell script templates use `__fish_is_zh()` helper checking `$LANG`
 
 ### Key Modules
 
@@ -84,6 +94,8 @@ Each template must have a `# desc: <description>` line in the `.sh` file.
 | `src/utils/config.js` | Shell detection, rc file path, pocket/alias-list directory config |
 | `src/utils/constants.js` | `uniqueHomeDir = "pocket"` |
 | `src/utils/diff.js` | Simple line-level diff (no external deps) |
+| `src/utils/locales.js` | i18n: `t(key, vars)` translation function, zh/en locale data |
+| `src/utils/lang.js` | `detectLanguage()` — returns `"zh"` or `"non-zh"` based on `$LANG` env |
 
 ### Type System
 

@@ -10,6 +10,27 @@ __fish_is_zh() {
   [[ "${LANG:-}" =~ ^zh ]]
 }
 
+
+__fish_open_url() {
+  local url="$1"
+
+  OS=$(uname -s)
+
+  # 跨平台打开 URL
+  case "$OS" in
+    Darwin*)              echo -n "\e[32mopening\e[0m" "$url" && open "$url" && echo ' \e[32mopened\e[0m' ;;
+    Linux*)               echo -n "\e[32mxdg-open\e[0m" "$url" &&  xdg-open "$url" && echo ' \e[32mopened\e[0m' ;;
+    CYGWIN* | MINGW* | MSYS*) echo -n "\e[32mstart\e[0m" "$url" && start "$url" && echo ' \e[32mopened\e[0m' ;;
+    *)
+      if __fish_is_zh; then
+        echo "\e[33m⚠️  不支持的操作系统 ($OS)，请手动打开:\e[0m $url"
+      else
+        echo "\e[33m⚠️  Unsupported OS ($OS), please open manually:\e[0m $url"
+      fi
+      ;;
+  esac
+}
+
 # @public
 fish_open_npm() {
   local pkg=""
@@ -48,19 +69,5 @@ fish_open_npm() {
       ;;
   esac
 
-  OS=$(uname -s)
-
-  # 跨平台打开 URL
-  case "$OS" in
-    Darwin*)              echo -n "\e[32mopening\e[0m" "$url" && open "$url" && echo ' \e[32mopened\e[0m' ;;
-    Linux*)               echo -n "\e[32mxdg-open\e[0m" "$url" &&  xdg-open "$url" && echo ' \e[32mopened\e[0m' ;;
-    CYGWIN* | MINGW* | MSYS*) echo -n "\e[32mstart\e[0m" "$url" && start "$url" && echo ' \e[32mopened\e[0m' ;;
-    *)
-      if __fish_is_zh; then
-        echo "\e[33m⚠️  不支持的操作系统 ($OS)，请手动打开:\e[0m $url"
-      else
-        echo "\e[33m⚠️  Unsupported OS ($OS), please open manually:\e[0m $url"
-      fi
-      ;;
-  esac
+  __fish_open_url "$url"
 }

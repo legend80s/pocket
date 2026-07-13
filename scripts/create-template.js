@@ -83,30 +83,28 @@ async function main() {
   const descIsZh = hasChinese(desc)
   const usageIsZh = hasChinese(usage)
 
-  const descValue = desc || "<required: Why choose me>"
-  const usageValue = usage || "<required: How to use>"
+  const descPlaceholder = "<required: Why choose me>"
+  const usagePlaceholder = "<required: How to use>"
 
-  const content = [
-    "#!/bin/bash",
-    "",
-    descIsZh ? `# desc: ${descValue}` : `# desc.en: ${descValue}`,
-    usageIsZh ? `# usage: ${usageValue}` : `# usage.en: ${usageValue}`,
-    "",
-    // always write both desc and usage placeholders (the other locale)
-    descIsZh ? "# desc.en:" : "# desc:",
-    usageIsZh ? "# usage.en:" : "# usage:",
-    "",
-    "__fish_is_zh() {",
-    '  [[ "${LANG:-}" =~ ^zh ]]',
-    "}",
-    "",
-    "# @public",
-    `${name}() {`,
-    "  # TODO: implement",
-    '  echo "not yet implemented"',
-    "}",
-    "",
-  ].join("\n")
+  const content = `#!/bin/bash
+
+# desc: ${descIsZh ? desc : descPlaceholder}
+# usage: ${usageIsZh ? usage : usagePlaceholder}
+
+# desc.en: ${!descIsZh ? desc : descPlaceholder}
+# usage.en: ${!usageIsZh ? usage : usagePlaceholder}
+
+@private
+__fish_is_zh() {
+  [[ "\${LANG:-}" =~ ^zh ]]
+}
+
+# @public
+${name}() {
+  # TODO: implement
+  echo "not yet implemented"
+}
+`
 
   const filePath = join(TEMPLATES_DIR, `${name}.sh`)
   writeFileSync(filePath, content, "utf-8")

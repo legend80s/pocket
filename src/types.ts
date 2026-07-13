@@ -5,6 +5,7 @@ export type ParsedArgs = {
   help: boolean
   version: boolean
   list: boolean
+  dryRun: boolean
 }
 
 /**
@@ -66,6 +67,7 @@ export type ShellType = "zsh" | "bash" | "unknown"
 export interface AddOptions {
   /** 强制覆盖 */
   force: boolean
+  dryRun: boolean
 }
 
 /**

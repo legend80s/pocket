@@ -36,12 +36,14 @@ function parseArgsAll(args) {
       list: { type: "boolean", short: "l" },
       force: { type: "boolean" },
       debug: { type: "boolean" },
+      "dry-run": { type: "boolean", default: false },
     },
     allowPositionals: true,
     strict: true,
   })
 
   // console.log("values:", values)
+  // throw new Error("test")
   // console.log("positionals:", positionals)
 
   // 解析子命令（第一个位置参数）
@@ -49,15 +51,19 @@ function parseArgsAll(args) {
   // 别名列表（从第二个位置参数开始，排除以 -- 开头的选项）
   const aliases = positionals.slice(1).filter((arg) => !arg.startsWith("-"))
 
+  const dryRun = values["dry-run"]
+
   return {
     command,
     aliases,
     options: {
       force: values.force ?? false,
+      dryRun,
     },
     help: values.help ?? false,
     version: values.version ?? false,
     list: values.list ?? false,
+    dryRun,
   }
 }
 
@@ -67,7 +73,8 @@ function parseArgsAll(args) {
 async function main() {
   const args = process.argv.slice(2)
 
-  const { command, aliases, options, help, version, list } = parseArgsAll(args)
+  const { command, aliases, options, help, version, list, dryRun } =
+    parseArgsAll(args)
 
   // if (args.length === 0) {
   //   // 无参数 → 交互式 add
@@ -85,6 +92,10 @@ async function main() {
   if (version) {
     console.log(`\n${t("version.label", { version: VERSION })}`)
     return
+  }
+
+  if (dryRun) {
+    console.log(`\n> dry run mode ON, no action will be performed.\n`)
   }
 
   // list 命令

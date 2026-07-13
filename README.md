@@ -31,7 +31,7 @@ pelican catch
 
 ## Alias List
 
-> The catch:
+> The catch.
 
 | Alias | Description | Usage |
 | --- | --- | --- |
@@ -61,7 +61,7 @@ pelican --help
 
 ## Installation File Structure
 
-> The pelican pouch:
+> The pelican pouch.
 
 ```text
 ~/.pelican

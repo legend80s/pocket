@@ -4,6 +4,10 @@
 # desc.en: Quickly open a package's npm page
 # usage.en: fish_open_npm [--site=npmx] [pkg_name]
 
+__fish_is_zh() {
+  [[ "${LANG:-}" =~ ^zh ]]
+}
+
 # @public
 fish_open_npm() {
   local pkg=""
@@ -24,7 +28,7 @@ fish_open_npm() {
     if [[ -f "package.json" ]]; then
       pkg=$(node -p "require('./package.json').name")
     else
-      read "pkg?请输入包名: "
+      read "pkg?$(__fish_is_zh && echo "请输入包名: " || echo "Enter package name: ")"
     fi
   fi
 
@@ -32,7 +36,14 @@ fish_open_npm() {
   case "$site" in
     npmjs) url="https://www.npmjs.com/package/$pkg" ;;
     npmx)  url="https://npmx.dev/package/$pkg" ;;
-    *)     echo "❌ 不支持的站点: $site (支持: npmjs, npmx)" && return 1 ;;
+    *)
+      if __fish_is_zh; then
+        echo "❌ 不支持的站点: $site (支持: npmjs, npmx)"
+      else
+        echo "❌ Unsupported site: $site (supported: npmjs, npmx)"
+      fi
+      return 1
+      ;;
   esac
 
   OS=$(uname -s)
@@ -42,6 +53,12 @@ fish_open_npm() {
     Darwin*)              echo -n "\e[32mopening\e[0m" "$url" && open "$url" && echo ' \e[32mopened\e[0m' ;;
     Linux*)               echo -n "\e[32mxdg-open\e[0m" "$url" &&  xdg-open "$url" && echo ' \e[32mopened\e[0m' ;;
     CYGWIN* | MINGW* | MSYS*) echo -n "\e[32mstart\e[0m" "$url" && start "$url" && echo ' \e[32mopened\e[0m' ;;
-    *)                    echo "\e[33m⚠️  不支持的操作系统 ($OS)，请手动打开:\e[0m $url" ;;
+    *)
+      if __fish_is_zh; then
+        echo "\e[33m⚠️  不支持的操作系统 ($OS)，请手动打开:\e[0m $url"
+      else
+        echo "\e[33m⚠️  Unsupported OS ($OS), please open manually:\e[0m $url"
+      fi
+      ;;
   esac
 }

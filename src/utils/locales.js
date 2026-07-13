@@ -10,7 +10,8 @@ import { detectLanguage } from "./lang.js"
 const zh = {
   // index.js
   "help.text": `\
-> 🧰 pelican - 从口袋里掏出你的专属命令行工具
+
+> 🐦 Pelican - 从鹈鹕鼓鼓囊囊的后囊中掏出你的专属命令行工具
 
 ## 用法:
   pelican catch <alias...>    安装一个或多个 alias
@@ -23,7 +24,7 @@ const zh = {
   pelican catch <fish_name1>                  安装一个
   pelican catch <fish_name1> <fish_name2> ... 批量安装
 
-文档:
+## 文档:
   https://github.com/legend80s/pocket`,
   "version.label": "pelican v{version}",
   "error.generic": "❌ 发生错误: {message}",
@@ -66,7 +67,8 @@ const zh = {
 
 const en = {
   "help.text": `\
-> 🧰 pelican - Pull your CLI tools from your pocket
+
+> 🐦 Pelican - Pull your CLI tools from your pelican' pouch
 
 ## Usage:
   pelican catch <alias...>    Install one or more aliases
@@ -79,7 +81,7 @@ const en = {
   pelican catch <alias_name>                  Install a single alias
   pelican catch <alias_name1> <alias_name2>   Install multiple aliases
 
-Docs:
+## Docs:
   https://github.com/legend80s/pocket`,
   "version.label": "pelican v{version}",
   "error.generic": "❌ Error: {message}",

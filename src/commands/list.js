@@ -4,9 +4,10 @@
  */
 
 import { existsSync } from "node:fs"
+import { styleText } from "node:util"
 import { getConfig } from "../utils/config.js"
-import { listAvailableAliases } from "../utils/template.js"
 import { t } from "../utils/locales.js"
+import { listAvailableAliases } from "../utils/template.js"
 
 /**
  * 检查 alias 是否已安装
@@ -70,6 +71,10 @@ export async function listCommand() {
   console.log()
   console.table(all)
 
-  console.log(t("list.footer.path", { path: aliasesFile }))
+  console.log(
+    t("list.footer.path", {
+      path: styleText(["underline", "green"], aliasesFile),
+    }),
+  )
   console.log(t("list.footer.hint"))
 }

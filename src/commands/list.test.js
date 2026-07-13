@@ -1,5 +1,8 @@
 import assert from "node:assert"
-import { describe, it, mock, after } from "node:test"
+import { execSync } from "node:child_process"
+import { homedir } from "node:os"
+import { after, describe, it, mock } from "node:test"
+import { stripVTControlCharacters } from "node:util"
 
 const ORIG_LANG = process.env.LANG
 
@@ -42,6 +45,72 @@ describe("list command integration (i18n) #integration", () => {
 
     return outputChunks.join("")
   }
+
+  it("#integration should output Chinese when LANG=zh", async () => {
+    const output = execSync("node ./bin/pocket.js list", {
+      env: {
+        ...process.env, // 保留原有环境变量
+        LANG: "zh", // 添加或覆盖 LANG
+      },
+    }).toString("utf-8")
+    // console.log("output:", output)
+
+    assert.deepStrictEqual(
+      stripVTControlCharacters(output).split("\n"),
+      (
+        `
+┌─────────┬──────────────────────────────┬────────────────────────────────┬─────────────────────────────────────────┬─────────────┐
+│ (index) │ Fish (alias)                 │ Description                    │ Usage                                   │ Status      │
+├─────────┼──────────────────────────────┼────────────────────────────────┼─────────────────────────────────────────┼─────────────┤
+│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'            │ 'fish_open_npm [--site=npmx] [包名]'    │ '⬜ 未安装' │
+│ 2       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目' │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '⬜ 未安装' │
+└─────────┴──────────────────────────────┴────────────────────────────────┴─────────────────────────────────────────┴─────────────┘
+
+` +
+        `📁 安装路径: ~\\.pelican\\alias-list\\index.sh`.replace(
+          "~",
+          homedir(),
+        ) +
+        `
+
+💡 运行 \`pelican catch <fish>\` 安装
+`
+      ).split("\n"),
+    )
+  })
+
+  it("#integration should output English when LANG=en", async () => {
+    const output = execSync("node ./bin/pocket.js list", {
+      env: {
+        ...process.env, // 保留原有环境变量
+        LANG: "en", // 添加或覆盖 LANG
+      },
+    }).toString("utf-8")
+    // console.log("output:", output)
+
+    assert.deepStrictEqual(
+      stripVTControlCharacters(output).split("\n"),
+      (
+        `
+┌─────────┬──────────────────────────────┬─────────────────────────────────────────────┬────────────────────────────────────────────┬────────────────────┐
+│ (index) │ Fish (alias)                 │ Description                                 │ Usage                                      │ Status             │
+├─────────┼──────────────────────────────┼─────────────────────────────────────────────┼────────────────────────────────────────────┼────────────────────┤
+│ 1       │ 'fish_open_npm'              │ "Quickly open a package's npm page"         │ 'fish_open_npm [--site=npmx] [pkg_name]'   │ '⬜ Not installed' │
+│ 2       │ 'fish_pnpm_init_node_js_pkg' │ 'Quickly initialize a Node.js pnpm project' │ 'fish_pnpm_init_node_js_pkg [folder_name]' │ '⬜ Not installed' │
+└─────────┴──────────────────────────────┴─────────────────────────────────────────────┴────────────────────────────────────────────┴────────────────────┘
+
+` +
+        `📁 Install path: ~\\.pelican\\alias-list\\index.sh`.replace(
+          "~",
+          homedir(),
+        ) +
+        `
+
+💡 Run \`pelican catch <fish>\` to install
+`
+      ).split("\n"),
+    )
+  })
 
   it("#integration should output Chinese when LANG=zh", async () => {
     const output = await captureOutput("zh_CN.UTF-8")

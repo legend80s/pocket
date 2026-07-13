@@ -16,7 +16,9 @@ A shell alias library that follows the shadcn approach — installed via copy so
 
 Feel free to customize it — you own the code, just like shadcn.
 
-## Install — Adopt a free Pelican
+## Install
+
+> Adopt a free pelican.
 
 ```bash
 # Use pnpx
@@ -27,14 +29,18 @@ pnpm install -g @legend80s/pelican
 pelican catch
 ```
 
-## Alias List — The Catch
+## Alias List
+
+> The catch:
 
 | Alias | Description | Usage |
 | --- | --- | --- |
 | `fish_open_npm` | Quickly open a package's npm page. | `fish_open_npm [pkg_name]` |
 | `fish_pnpm_init_node_js_pkg` | Quickly set up a Node.js project with pnpm. | `fish_pnpm_init_node_js_pkg <folder_name>` |
 
-## Usage — Go fishing
+## Usage
+
+> Go fishing.
 
 ```md
 # Browse all aliases and find what interests you.
@@ -53,7 +59,9 @@ pelican catch <fish_name1> <fish_name2> ...
 pelican --help
 ```
 
-## Installation File Structure — The Pelican Pouch
+## Installation File Structure
+
+> The pelican pouch:
 
 ```text
 ~/.pelican
@@ -69,7 +77,9 @@ It will insert `source` line below to your `~/.zshrc` or `~/.bashrc`：
 source ~/.pelican/aliases/index.sh
 ```
 
-## Uninstall — Release Back to the Wild
+## Uninstall
+
+> Release fish back to the wild.
 
 Remove or comment the `source` line below then open a new terminal tab.
 

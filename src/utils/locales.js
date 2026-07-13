@@ -2,6 +2,7 @@
  * i18n locale 数据 & 翻译函数
  */
 
+import { styleText } from "node:util"
 import { detectLanguage } from "./lang.js"
 
 // ── 中文 ──────────────────────────────────────────
@@ -28,16 +29,14 @@ const zh = {
   "error.generic": "❌ 发生错误: {message}",
 
   // add.js
-  "add.error.shell_detect":
-    "❌ 无法检测 Shell 类型，请确保使用 zsh 或 bash",
+  "add.error.shell_detect": "❌ 无法检测 Shell 类型，请确保使用 zsh 或 bash",
   "add.error.no_rc_file": "❌ 无法获取 Shell 配置文件路径",
   "add.error.no_templates": "❌ 没有可用的 alias 模板",
   "add.error.rc_not_found.path": "❌ 未找到配置文件: {path}",
   "add.error.rc_not_found.create": "请先创建 {path} 文件",
   "add.error.template_not_found": "❌ 未找到模板: {name}",
   "add.error.template_not_exist": "模板不存在",
-  "add.prompt.select_aliases":
-    "选择要安装的 alias（空格选择，回车确认）",
+  "add.prompt.select_aliases": "选择要安装的 alias（空格选择，回车确认）",
   "add.prompt.confirm_overwrite": "\n⚠️  {name} 已安装，是否覆盖？",
   "add.log.no_selection": "👋 未选择任何 alias，退出",
   "add.log.changes_header": "\n📋 {name} 变更：",
@@ -57,7 +56,7 @@ const zh = {
   "list.status.installed": "✅ 已安装",
   "list.status.not_installed": "⬜ 未安装",
   "list.footer.path": "\n📁 安装路径: {path}",
-  "list.footer.hint": "\n💡 运行 pelican catch <fish> 安装",
+  "list.footer.hint": `\n💡 运行 ${styleText("green", "`pelican catch <fish>`")} 安装`,
 
   // template.js
   "template.error.no_description": "模板 {name} 没有描述信息",
@@ -95,8 +94,7 @@ Docs:
   "add.error.template_not_exist": "Template does not exist",
   "add.prompt.select_aliases":
     "Select alias to install (space to select, enter to confirm)",
-  "add.prompt.confirm_overwrite":
-    "\n⚠️  {name} already installed. Overwrite?",
+  "add.prompt.confirm_overwrite": "\n⚠️  {name} already installed. Overwrite?",
   "add.log.no_selection": "👋 No alias selected. Exiting.",
   "add.log.changes_header": "\n📋 {name} changes:",
   "add.log.no_diff": "\n📋 {name}: no differences",
@@ -114,7 +112,7 @@ Docs:
   "list.status.installed": "✅ Installed",
   "list.status.not_installed": "⬜ Not installed",
   "list.footer.path": "\n📁 Install path: {path}",
-  "list.footer.hint": "\n💡 Run pelican catch <fish> to install",
+  "list.footer.hint": `\n💡 Run ${styleText("green", "`pelican catch <fish>`")} to install`,
 
   "template.error.no_description":
     "Template {name} does not have a description",
@@ -126,7 +124,7 @@ Docs:
  * @returns {Record<string, string>}
  */
 function getLocale() {
-  return (detectLanguage() === "zh" ? zh : en)
+  return detectLanguage() === "zh" ? zh : en
 }
 
 /**

@@ -10,7 +10,6 @@ __fish_is_zh() {
   [[ "${LANG:-}" =~ ^zh ]]
 }
 
-
 __fish_open_url() {
   local url="$1"
 

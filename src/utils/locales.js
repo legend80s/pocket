@@ -56,7 +56,7 @@ const zh = {
   "list.error.no_templates": "📭 没有可用的 alias 模板",
   "list.status.installed": "✅ 已安装",
   "list.status.not_installed": "⬜ 未安装",
-  "list.footer.path": "\n📁 安装路径: {path}",
+  "list.footer.path": "📁 安装路径: {path}",
   "list.footer.hint": `\n💡 运行 ${styleText("green", "`pelican catch <fish>`")} 安装`,
 
   // template.js
@@ -113,7 +113,7 @@ const en = {
   "list.error.no_templates": "📭 No available alias templates",
   "list.status.installed": "✅ Installed",
   "list.status.not_installed": "⬜ Not installed",
-  "list.footer.path": "\n📁 Install path: {path}",
+  "list.footer.path": "📁 Install path: {path}",
   "list.footer.hint": `\n💡 Run ${styleText("green", "`pelican catch <fish>`")} to install`,
 
   "template.error.no_description":

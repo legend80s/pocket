@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node --test",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-exclude=\"src/**/*.test.js\" --test-reporter=tap",
     "typecheck": "tsgo --noEmit",
     "pub:patch": "npm version patch",
     "pub:minor": "npm version minor",

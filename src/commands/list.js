@@ -5,24 +5,9 @@
 
 import { existsSync } from "node:fs"
 import { styleText } from "node:util"
-import { getConfig } from "../utils/config.js"
+import { getConfig, isAliasInstalled } from "../utils/config.js"
 import { t } from "../utils/locales.js"
 import { listAvailableAliases } from "../utils/template.js"
-
-/**
- * 检查 alias 是否已安装
- * @param {string} aliasDir
- * @param {string} name
- * @returns {boolean}
- */
-function isInstalled(aliasDir, name) {
-  // console.log("process.env.TESTING:", process.env.TESTING)
-  // return false
-  // 单文件: <name>.sh, 多文件目录: <name>/
-  return (
-    existsSync(`${aliasDir}/${name}.sh`) || existsSync(`${aliasDir}/${name}`)
-  )
-}
 
 /**
  * 执行 list 命令
@@ -43,7 +28,7 @@ export async function listCommand(log = true) {
   const installedMap = {}
   if (existsSync(aliasDir)) {
     for (const alias of available) {
-      installedMap[alias.name] = isInstalled(aliasDir, alias.name)
+      installedMap[alias.name] = isAliasInstalled(aliasDir, alias.name)
     }
   }
 

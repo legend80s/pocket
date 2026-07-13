@@ -59,6 +59,19 @@ if (import.meta.main) {
 }
 
 /**
+ * 检查 alias 是否已安装
+ * @param {string} aliasDir
+ * @param {string} name
+ * @returns {boolean}
+ */
+export function isAliasInstalled(aliasDir, name) {
+  return (
+    existsSync(`${aliasDir}/${name}.sh`) ||
+    existsSync(`${aliasDir}/${name}`)
+  )
+}
+
+/**
  * 获取 Shell 配置文件路径
  * @param {ShellType} shell
  * @returns {string | null}

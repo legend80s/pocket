@@ -14,7 +14,12 @@ import {
 } from "node:fs"
 import { styleText } from "node:util"
 import prompts from "prompts"
-import { detectShell, getConfig, getRcFile } from "../utils/config.js"
+import {
+  detectShell,
+  getConfig,
+  getRcFile,
+  isAliasInstalled,
+} from "../utils/config.js"
 import { uniqueHomeDir } from "../utils/constants.js"
 import { simpleDiff } from "../utils/diff.js"
 import { t } from "../utils/locales.js"
@@ -78,20 +83,6 @@ function ensureRcSource(rcFile, aliasesFile, dryRun) {
     return false
   }
   return true
-}
-
-/**
- * 检查 alias 是否已安装
- * @param {string} aliasDir
- * @param {string} name
- * @param {"file" | "dir"} type
- * @returns {boolean}
- */
-function isInstalled(aliasDir, name, type) {
-  if (type === "file") {
-    return existsSync(`${aliasDir}/${name}.sh`)
-  }
-  return existsSync(`${aliasDir}/${name}`)
 }
 
 /**
@@ -194,11 +185,16 @@ export async function addCommand(aliasNames, { dryRun, force }) {
       type: "multiselect",
       name: "selected",
       message: t("add.prompt.select_aliases"),
-      choices: available.map(({ name, description }) => ({
-        title: name,
-        description,
-        value: name,
-      })),
+      choices: available.map(({ name, description }) => {
+        const installed = isAliasInstalled(aliasDir, name)
+        return {
+          title: installed ? `✅ ${name}` : name,
+          description: installed
+            ? `${description} (${t("list.status.installed")})`
+            : description,
+          value: name,
+        }
+      }),
       instructions: false,
     })
 
@@ -233,7 +229,7 @@ export async function addCommand(aliasNames, { dryRun, force }) {
       continue
     }
 
-    const installed = isInstalled(aliasDir, name, template.type)
+    const installed = isAliasInstalled(aliasDir, name)
 
     // 已存在且不强制覆盖 → 确认
     if (installed && !force) {

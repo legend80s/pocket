@@ -16,7 +16,7 @@ __fish_open_url() {
 
   OS=$(uname -s)
 
-  # 跨平台打开 URL
+  # open URL across different platforms
   case "$OS" in
     Darwin*)              echo -n "\e[32mopening\e[0m" "$url" && open "$url" && echo ' \e[32mopened\e[0m' ;;
     Linux*)               echo -n "\e[32mxdg-open\e[0m" "$url" &&  xdg-open "$url" && echo ' \e[32mopened\e[0m' ;;

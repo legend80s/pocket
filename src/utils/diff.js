@@ -2,6 +2,8 @@
  * 简单行级 diff 工具
  */
 
+import { styleText } from "node:util"
+
 /**
  * 对两段文本做行级 diff，返回 +/- 格式
  * @param {string} oldText
@@ -22,17 +24,19 @@ export function simpleDiff(oldText, newText) {
   let diffCount = 0
 
   for (let i = 0; i < maxLen; i++) {
-    if (diffCount >= 3) break
+    if (diffCount >= 3) {
+      break
+    }
 
     const oldLine = oldLines[i]
     const newLine = newLines[i]
 
     if (oldLine !== newLine) {
       if (oldLine !== undefined) {
-        diffLines.push(`- ${oldLine}`)
+        diffLines.push(styleText("red", `- ${oldLine}`))
       }
       if (newLine !== undefined) {
-        diffLines.push(`+ ${newLine}`)
+        diffLines.push(styleText("green", `+ ${newLine}`))
       }
       diffCount++
     }

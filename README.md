@@ -31,7 +31,7 @@ pelican catch
 
 ## Alias List
 
-> The catch.
+> The fish-rich lake.
 
 | Alias | Description | Usage |
 | --- | --- | --- |

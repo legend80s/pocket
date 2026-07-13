@@ -188,6 +188,8 @@ export async function addCommand(aliasNames, { dryRun, force }) {
       process.exit(1)
     }
 
+    console.log()
+
     const response = await prompts({
       type: "multiselect",
       name: "selected",

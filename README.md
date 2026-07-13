@@ -33,11 +33,33 @@ pelican catch
 
 > The fish-rich lake.
 
+<!--
 | Alias | Description | Usage |
 | --- | --- | --- |
 | `fish_open_npm` | Quickly open a package's npm page. | `fish_open_npm [pkg_name]` |
 | `fish_open_repo` | Open the current project's repository URL in browser — whether it's GitHub, GitLab or privately deployed. | `fish_open_repo` |
 | `fish_pnpm_init_node_js_pkg` | Quickly set up a Node.js project with pnpm. | `fish_pnpm_init_node_js_pkg <folder_name>` |
+-->
+<!-- Alias | Description | Usage | -->
+
+1. `fish_open_npm`: Quickly open a package's npm page. 
+
+    ```bash
+    fish_open_npm [pkg_name]`
+    ```
+  
+2. `fish_open_repo`: Open the current project's repository URL in browser — whether it's GitHub, GitLab or privately deployed. 
+
+    ```bash
+    fish_open_repo
+    ```
+
+3. `fish_pnpm_init_node_js_pkg`: Quickly set up a Node.js project with pnpm. 
+
+   ```bash
+   fish_pnpm_init_node_js_pkg <folder_name>
+   ```
+
 
 ## Usage
 

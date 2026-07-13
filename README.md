@@ -6,7 +6,7 @@
 
 <p align="center">English | <a href="./README.zh_CN.md">中文</a></p>
 
-> 🐦 The **鹈鹕 [`tíhú`] pelican** is a bird skilled at catching fish. A trained pelican will deliver all its catch to its owner —
+> 🦩 The **鹈鹕 [`tíhú`] pelican** is a bird skilled at catching fish. A trained pelican will deliver all its catch to its owner —
 >
 > and `Pelican` delivers every alias to you.
 >

@@ -41,6 +41,32 @@ export async function listCommand(log = true) {
 
   log && console.log()
 
+  const maxDescriptionLength = Math.max(
+    ...available.map((alias) => alias.description.length),
+  )
+  // console.log("maxDescriptionLength:", maxDescriptionLength)
+
+  const terminalWidth = process.stdout.columns || 80
+
+  const delta = 81 // 208 - 127
+
+  const maxLineWidth =
+    Math.max(
+      ...available.map(
+        ({ name, description, usage }) =>
+          name.length + description.length + usage.length,
+      ),
+    ) + delta
+
+  // const isLineWrapped = false
+  const isLineWrapped = maxLineWidth > terminalWidth
+  // console.log("maxLineWidth:", { isLineWrapped, maxLineWidth, terminalWidth })
+
+  const lineSeparator = styleText(
+    "gray",
+    "─".repeat(Math.min(terminalWidth - 1, (maxDescriptionLength * 4.5) / 3)),
+  )
+
   for (const alias of available) {
     const installed = installedMap[alias.name] ?? false
     const status = installed
@@ -54,11 +80,14 @@ export async function listCommand(log = true) {
       Status: status,
     }
 
-    // const statusText = installed ? green(status) : styleText("yellow", status)
-    // console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
-    // console.log(`- ${bold("Description")}: ${white(alias.description)}`)
-    // console.log(`- ${bold("Usage")}: ${green(alias.usage, "white")}`)
-    // console.log()
+    if (isLineWrapped) {
+      const statusText = installed ? green(status) : styleText("yellow", status)
+      console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
+      console.log(`\n${styleText("gray", "❯")} ${alias.description}\n`)
+      console.log(`${styleText("cyan", "❯")} ${green(alias.usage)}`)
+      console.log(lineSeparator)
+      console.log(``)
+    }
 
     index += 1
   }
@@ -66,7 +95,10 @@ export async function listCommand(log = true) {
   // console.log("all:", all)
 
   if (log) {
-    console.log(all, "\n")
+    // console.log(all, "\n")
+    if (!isLineWrapped) {
+      console.table(all)
+    }
 
     console.log(
       t("list.footer.path", {

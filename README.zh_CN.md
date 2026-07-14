@@ -1,9 +1,9 @@
 <!-- <h1 hidden align="center">Pelican</h1> -->
-<p align="center">
+<div align="center">
 
-  [![NPM Version](https://img.shields.io/npm/v/@legend80s/pelican.svg)](https://www.npmjs.com/package/@legend80s/pelican)
-  [![npm downloads](https://img.shields.io/npm/dm/@legend80s/pelican.svg)](https://www.npmjs.com/package/@legend80s/pelican)
-</p>
+[![NPM Version](https://img.shields.io/npm/v/@legend80s/pelican.svg)](https://www.npmjs.com/package/@legend80s/pelican)
+[![npm downloads](https://img.shields.io/npm/dm/@legend80s/pelican.svg)](https://www.npmjs.com/package/@legend80s/pelican)
+</div>
 
 <p align="center">
   <img src="assets/banner.svg" alt="pelican: A shell alias library that follows the shadcn approach" width="660" />

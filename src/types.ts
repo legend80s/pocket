@@ -6,6 +6,8 @@ export type ParsedArgs = {
   version: boolean
   list: boolean
   dryRun: boolean
+  verbose: boolean
+  listFormat: "adaptive" | "markdown" | "table"
 }
 
 /**

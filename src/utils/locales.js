@@ -18,6 +18,7 @@ const zh = {
   pelican list                列出所有 alias
   pelican --version, -v       显示版本号
   pelican --help, -h          显示帮助信息
+  pelican --verbose           显示详细信息
 
 ## 示例:
   pelican catch                               交互式选择安装
@@ -75,6 +76,7 @@ const en = {
   pelican list                List all aliases
   pelican --version, -v       Show version
   pelican --help, -h          Show help
+  pelican --verbose           Show verbose output
 
 ## Examples:
   pelican catch                               Interactive selection

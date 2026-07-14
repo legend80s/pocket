@@ -26,7 +26,7 @@ exports[`list command integration (i18n) #integration > #integration should outp
   "",
   "❯ 任意层级目录创建文件，如果是 html 文件，则自动添加 HTML 模板（如果发现你复制了 HTML 则自动写入）并且自动打开编辑器和浏览器",
   "",
-  "❯ fish_touchr /path/to/file.html",
+  "❯ fish_touchr /path/to/file",
   "─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
   "",
   "## 5. fish_view_pkg_json → ⬜ 未安装",

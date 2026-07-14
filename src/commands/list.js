@@ -7,11 +7,17 @@ import { getConfig, isAliasInstalled } from "../utils/config.js"
 import { isChinese } from "../utils/lang.js"
 import { t } from "../utils/locales.js"
 import { listAvailableAliases } from "../utils/template.js"
+/** @import { ILogger } from '../utils/logger.type.js' */
 
 /**
  * 执行 list 命令
+ * @param {{ printListResult?: boolean; logger?: ILogger; listFormat?: import('../types.js').ParsedArgs['listFormat'] }} options
  */
-export async function listCommand(log = true) {
+export async function listCommand({
+  printListResult = true,
+  logger,
+  listFormat = "adaptive",
+} = {}) {
   const { aliasDir, aliasesFile } = getConfig()
 
   // 获取所有可用 alias
@@ -34,12 +40,12 @@ export async function listCommand(log = true) {
 
   // console.log(`\n📦 可用 Alias (${available.length} 个):\n`)
 
-  /** @type {Record<string, { 'Fish (alias)': string; Description: string; Usage: string; Status: string}>} */
+  /** @type {Record<string, { 'Fish (alias)': string; Description: string; Usage: string; 'Installed?': string}>} */
   const all = {}
 
   let index = 1
 
-  log && console.log()
+  printListResult && console.log()
 
   const maxDescriptionLength = Math.max(
     ...available.map((alias) => alias.description.length),
@@ -49,7 +55,7 @@ export async function listCommand(log = true) {
   // 单元测试中 terminalWidth 为 undefined，强制 markdown 输出，console.table diff 噪音大
   const terminalWidth = process.stdout.columns || 0
 
-  const delta = 81 // 208 - 127
+  const delta = isChinese() ? 92 : 50 // 208 - 127
 
   const maxLineWidth =
     Math.max(
@@ -61,13 +67,14 @@ export async function listCommand(log = true) {
 
   // const isLineWrapped = false
   const isLineWrapped = maxLineWidth > terminalWidth
-  // console.log("maxLineWidth:", {
-  //   isLineWrapped,
-  //   maxLineWidth,
-  //   terminalWidth,
-  //   maxDescriptionLength,
-  //   isChinese: isChinese(),
-  // })
+
+  logger?.debug("maxLineWidth:", {
+    isLineWrapped,
+    maxLineWidth,
+    terminalWidth,
+    maxDescriptionLength,
+    isChinese: isChinese(),
+  })
 
   const factor = isChinese() ? 5 / 3 : 1
   const separatorLength = maxDescriptionLength * factor + `❯ `.length
@@ -86,14 +93,15 @@ export async function listCommand(log = true) {
       ? t("list.status.installed")
       : t("list.status.not_installed")
 
+    // all.push({
     all[`#${index}`] = {
       "Fish (alias)": alias.name,
       Description: alias.description,
       Usage: alias.usage,
-      Status: status,
+      "Installed?": installed ? "✅" : "⚪",
     }
 
-    if (log && isLineWrapped) {
+    if (printListResult && (isLineWrapped || listFormat === "markdown")) {
       const statusText = installed ? green(status) : styleText("yellow", status)
       console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
       console.log(`\n${styleText("gray", "❯")} ${alias.description}\n`)
@@ -107,9 +115,10 @@ export async function listCommand(log = true) {
 
   // console.log("all:", all)
 
-  if (log) {
+  if (printListResult) {
     // console.log(all, "\n")
-    if (!isLineWrapped) {
+    if (!isLineWrapped || listFormat === "table") {
+      // console.log(all)
       console.table(all)
     }
 

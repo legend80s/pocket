@@ -19,7 +19,7 @@ describe("#integration", () => {
     ).toString("utf-8")
 
     // console.log("output:", output)
-    const result = await listCommand(false)
+    const result = await listCommand({ printListResult: false })
 
     if (!result) {
       throw new Error("Command failed")

@@ -10,10 +10,14 @@ import pkg from "../package.json" with { type: "json" }
 import { addCommand } from "./commands/add.js"
 import { listCommand } from "./commands/list.js"
 import { t } from "./utils/locales.js"
+import { Logger } from "./utils/logger.js"
 
 // console.log("pkg:", pkg)
 
 const VERSION = pkg.version
+
+/** @type {Logger} */
+let logger
 
 /**
  * 显示帮助信息
@@ -35,16 +39,22 @@ function parseArgsAll(args) {
       version: { type: "boolean", short: "v" },
       list: { type: "boolean", short: "l" },
       force: { type: "boolean" },
-      debug: { type: "boolean" },
+      // debug: { type: "boolean" },
+      verbose: { type: "boolean", default: false },
       "dry-run": { type: "boolean", default: false },
+      "list-format": { type: "string", default: "adaptive" },
     },
     allowPositionals: true,
     strict: true,
   })
 
-  // console.log("values:", values)
+  const verbose = values.verbose
+
+  logger = new Logger(verbose)
+
+  logger.debug("values:", values)
   // throw new Error("test")
-  // console.log("positionals:", positionals)
+  logger.debug("positionals:", positionals)
 
   // 解析子命令（第一个位置参数）
   const command = positionals[0] || ""
@@ -64,6 +74,9 @@ function parseArgsAll(args) {
     version: values.version ?? false,
     list: values.list ?? false,
     dryRun,
+    // @ts-expect-error
+    listFormat: values["list-format"],
+    verbose,
   }
 }
 
@@ -73,7 +86,7 @@ function parseArgsAll(args) {
 async function main() {
   const args = process.argv.slice(2)
 
-  const { command, aliases, options, help, version, list, dryRun } =
+  const { command, aliases, options, help, version, list, dryRun, listFormat } =
     parseArgsAll(args)
 
   // if (args.length === 0) {
@@ -98,9 +111,11 @@ async function main() {
     console.log(`\n> dry run mode ON, no action will be performed.\n`)
   }
 
+  const listCmd = listCommand.bind(null, { logger, listFormat })
+
   // list 命令
   if (list || command === "list") {
-    await listCommand()
+    await listCmd()
     return
   }
 
@@ -112,7 +127,7 @@ async function main() {
 
   // 未知命令 → 列出所有 alias
   // console.log(`❌ 未知命令: ${command}`)
-  await listCommand()
+  await listCmd()
 }
 
 main().catch((err) => {

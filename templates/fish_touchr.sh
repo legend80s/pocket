@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # desc: 任意层级目录创建文件，如果是 html 文件，则自动添加 HTML 模板（如果发现你复制了 HTML 则自动写入）并且自动打开编辑器和浏览器
-# usage: fish_touchr /path/to/file.html
+# usage: fish_touchr /path/to/file
 
-# desc.en: Create file at any directory level. For HTML files: automatically inject HTML template or write directly if HTML content detected in clipboard then auto-open in both editor and browser
-# usage.en: fish_touchr /path/to/file.html
+# desc.en: Create file in nested directories. For HTML files auto-inject HTML template or write directly if HTML content detected in clipboard then auto-open in  editor and browser
+# usage.en: fish_touchr /path/to/file
 
 # @private
 # __fish_is_zh() {

@@ -1,5 +1,5 @@
 <!-- <h1 hidden align="center">Pelican</h1> -->
-<p>
+<p align="center">
   <a href="https://www.npmjs.com/package/@legend80s/pelican" target="_blank">
     <img src="https://img.shields.io/npm/v/@legend80s/pelican.svg" alt="npm version" />
   </a>

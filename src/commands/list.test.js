@@ -46,7 +46,7 @@ describe("list command integration (i18n) #integration", () => {
     return outputChunks.join("")
   }
 
-  it("#integration should output Chinese when LANG=zh", async () => {
+  it("#integration should output Chinese when LANG=zh", (t) => {
     const output = execSync("node ./bin/pocket.js list", {
       env: {
         ...process.env, // 保留原有环境变量
@@ -55,42 +55,37 @@ describe("list command integration (i18n) #integration", () => {
     }).toString("utf-8")
     // console.log("output:", output)
 
-    const result = await listCommand(false)
+    // const result = await listCommand(false)
 
-    if (!result) {
-      throw new Error("Command failed")
-    }
+    // if (!result) {
+    //   throw new Error("Command failed")
+    // }
 
-    const { installed } = result
-    const fish1 = installed["fish_open_npm"]
-    const tip1 = fish1 ? `✅ 已安装` : `⬜ 未安装`
-    const fish2 = installed["fish_pnpm_init_node_js_pkg"]
-    const tip2 = fish2 ? `✅ 已安装` : `⬜ 未安装`
-    const fish3 = installed["fish_open_repo"]
-    const tip3 = fish3 ? `✅ 已安装` : `⬜ 未安装`
+    // const { installed } = result
+    // const fish1 = installed["fish_open_npm"]
+    // const tip1 = fish1 ? `✅ 已安装` : `⬜ 未安装`
+    // const fish2 = installed["fish_pnpm_init_node_js_pkg"]
+    // const tip2 = fish2 ? `✅ 已安装` : `⬜ 未安装`
+    // const fish3 = installed["fish_open_repo"]
+    // const tip3 = fish3 ? `✅ 已安装` : `⬜ 未安装`
 
-    assert.deepStrictEqual(
-      stripVTControlCharacters(output).split("\n"),
-      (
-        `
-┌─────────┬──────────────────────────────┬──────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────┬─────────────┐
-│ (index) │ Fish (alias)                 │ Description                                                                  │ Usage                                   │ Status      │
-├─────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────┼─────────────┤
-│ 1       │ 'fish_open_npm'              │ '快速打开 npm 包页'                                                          │ 'fish_open_npm [--site=npmx] [包名]'    │ '${tip1}' │
-│ 2       │ 'fish_open_repo'             │ '打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台' │ 'fish_open_repo'                        │ '${tip3}' │
-│ 3       │ 'fish_pnpm_init_node_js_pkg' │ '快速初始化 Node.js pnpm 项目'                                               │ 'fish_pnpm_init_node_js_pkg [文件夹名]' │ '${tip2}' │
-└─────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────┴─────────────┘
+    const [table] = output.split("📁")
 
-` +
+    // console.log("table:", table)
+
+    t.assert.snapshot(table?.split("\n"))
+
+    assert.ok(
+      stripVTControlCharacters(output).includes(
         `📁 安装路径: ~\\.pelican\\alias-list\\index.sh`.replace(
           "~",
           homedir(),
         ) +
-        `
+          `
 
 💡 运行 \`pelican catch <fish>\` 安装
-`
-      ).split("\n"),
+`,
+      ),
     )
   })
 

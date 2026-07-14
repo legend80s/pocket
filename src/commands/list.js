@@ -46,7 +46,8 @@ export async function listCommand(log = true) {
   )
   // console.log("maxDescriptionLength:", maxDescriptionLength)
 
-  const terminalWidth = process.stdout.columns || 80
+  // 单元测试中 terminalWidth 为 undefined，认为他是无限大 不折行 输出用 console.table
+  const terminalWidth = process.stdout.columns || Infinity
 
   const delta = 81 // 208 - 127
 

@@ -1,4 +1,13 @@
 <!-- <h1 hidden align="center">Pelican</h1> -->
+<p>
+  <a href="https://www.npmjs.com/package/@legend80s/pelican" target="_blank">
+    <img src="https://img.shields.io/npm/v/@legend80s/pelican.svg" alt="npm version" />
+  </a>
+
+  <a href="https://www.npmjs.com/package/@legend80s/pelican">
+    <img src="https://img.shields.io/npm/dm/@legend80s/pelican.svg" alt="npm downloads" />
+  </a>
+</p>
 
 <p align="center">
   <img src="assets/banner.svg" alt="pelican: A shell alias library that follows the shadcn approach" width="660" />

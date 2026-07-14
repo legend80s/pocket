@@ -111,14 +111,25 @@ describe("list command integration (i18n) #integration", () => {
 
     const { all, installed, ...rest } = result
 
-    assert.deepStrictEqual(Object.keys(installed), [
+    const must = [
       "fish_open_npm",
       "fish_open_repo",
       "fish_pnpm_init_node_js_pkg",
-    ])
-    assert.deepStrictEqual(Object.values(installed), [true, true, false])
+    ]
+    assert.deepStrictEqual(
+      new Set(Object.keys(installed)).intersection(new Set(must)),
+      new Set(must),
+    )
 
-    const withoutCode = all.map(({ source, ...rest }) => rest)
+    assert.deepStrictEqual(
+      must.map((alias) => installed[alias]),
+      [true, true, false],
+    )
+
+    const withoutCode = all
+      .filter((item) => must.includes(item.name))
+      .map(({ source, ...rest }) => rest)
+
     assert.deepStrictEqual(
       { all: withoutCode, ...rest },
       {

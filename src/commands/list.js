@@ -93,7 +93,7 @@ export async function listCommand(log = true) {
       Status: status,
     }
 
-    if (isLineWrapped) {
+    if (log && isLineWrapped) {
       const statusText = installed ? green(status) : styleText("yellow", status)
       console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
       console.log(`\n${styleText("gray", "❯")} ${alias.description}\n`)

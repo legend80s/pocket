@@ -46,7 +46,7 @@ describe("list command integration (i18n) #integration", () => {
     return outputChunks.join("")
   }
 
-  it.only("#integration should output Chinese when LANG=zh", (t) => {
+  it("#integration should output Chinese when LANG=zh", (t) => {
     const output = execSync("node ./bin/pocket.js list", {
       env: {
         ...process.env, // 保留原有环境变量
@@ -69,14 +69,16 @@ describe("list command integration (i18n) #integration", () => {
     // const fish3 = installed["fish_open_repo"]
     // const tip3 = fish3 ? `✅ 已安装` : `⬜ 未安装`
 
-    const [table] = output.split("📁")
+    const colorlessOutput = stripVTControlCharacters(output)
+
+    const [table] = colorlessOutput.split("📁")
 
     // console.log("table:", table?.split("\n"))
 
     t.assert.snapshot(table?.split("\n"))
 
     assert.ok(
-      stripVTControlCharacters(output).includes(
+      colorlessOutput.includes(
         `📁 安装路径: ~\\.pelican\\alias-list\\index.sh`.replace(
           "~",
           homedir(),

@@ -1,11 +1,10 @@
 /**
  * pelican list 命令
- * @import { InstalledAlias } from '../types.js'
  */
-
 import { existsSync } from "node:fs"
 import { styleText } from "node:util"
 import { getConfig, isAliasInstalled } from "../utils/config.js"
+import { isChinese } from "../utils/lang.js"
 import { t } from "../utils/locales.js"
 import { listAvailableAliases } from "../utils/template.js"
 
@@ -17,6 +16,7 @@ export async function listCommand(log = true) {
 
   // 获取所有可用 alias
   const available = listAvailableAliases()
+  // console.log("available:", available)
 
   if (available.length === 0) {
     console.log(t("list.error.no_templates"))
@@ -61,9 +61,16 @@ export async function listCommand(log = true) {
 
   // const isLineWrapped = false
   const isLineWrapped = maxLineWidth > terminalWidth
-  // console.log("maxLineWidth:", { isLineWrapped, maxLineWidth, terminalWidth })
+  // console.log("maxLineWidth:", {
+  //   isLineWrapped,
+  //   maxLineWidth,
+  //   terminalWidth,
+  //   maxDescriptionLength,
+  //   isChinese: isChinese(),
+  // })
 
-  const separatorLength = (maxDescriptionLength * 4.5) / 3
+  const factor = isChinese() ? 5 / 3 : 1
+  const separatorLength = maxDescriptionLength * factor + `❯ `.length
   const lineSeparator = styleText(
     "gray",
     "─".repeat(

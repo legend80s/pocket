@@ -3,7 +3,7 @@
  */
 
 import { styleText } from "node:util"
-import { detectLanguage } from "./lang.js"
+import { isChinese } from "./lang.js"
 
 // ── 中文 ──────────────────────────────────────────
 
@@ -126,7 +126,7 @@ const en = {
  * @returns {Record<string, string>}
  */
 function getLocale() {
-  return detectLanguage() === "zh" ? zh : en
+  return isChinese() ? zh : en
 }
 
 /**
@@ -147,12 +147,4 @@ export function t(key, vars = {}) {
     template = template.replaceAll(`{${k}}`, String(v ?? ""))
   }
   return template
-}
-
-/**
- * 返回当前语言标识
- * @returns {"zh" | "en"}
- */
-export function getLanguage() {
-  return detectLanguage() === "zh" ? "zh" : "en"
 }

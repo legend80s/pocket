@@ -6,8 +6,8 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
+import { isChinese } from "./lang.js"
 import { t } from "./locales.js"
-import { detectLanguage } from "./lang.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -19,15 +19,17 @@ const TEMPLATES_DIR = join(__dirname, "../../templates")
  * @returns {{ description: string; usage: string }}
  */
 function extractMeta(content) {
-  const isZh = detectLanguage() === "zh"
+  const isZh = isChinese()
 
   const desc = isZh
     ? content.match(/^# desc:\s*(.+)/m)?.[1]
-    : (content.match(/^# desc\.en:\s*(.+)/m)?.[1] || content.match(/^# desc:\s*(.+)/m)?.[1])
+    : content.match(/^# desc\.en:\s*(.+)/m)?.[1] ||
+      content.match(/^# desc:\s*(.+)/m)?.[1]
 
   const usage = isZh
     ? content.match(/^# usage:\s*(.+)/m)?.[1]
-    : (content.match(/^# usage\.en:\s*(.+)/m)?.[1] || content.match(/^# usage:\s*(.+)/m)?.[1])
+    : content.match(/^# usage\.en:\s*(.+)/m)?.[1] ||
+      content.match(/^# usage:\s*(.+)/m)?.[1]
 
   return {
     description: desc ?? "",
@@ -98,7 +100,13 @@ export function loadTemplate(aliasName) {
     if (!description) {
       throw new Error(t("template.error.no_description", { name: aliasName }))
     }
-    return { name: aliasName, description, usage, source: content, type: "file" }
+    return {
+      name: aliasName,
+      description,
+      usage,
+      source: content,
+      type: "file",
+    }
   }
 
   // 再试多文件 templates/<name>/index.sh

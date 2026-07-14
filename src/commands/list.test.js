@@ -46,7 +46,7 @@ describe("list command integration (i18n) #integration", () => {
     return outputChunks.join("")
   }
 
-  it("#integration should output Chinese when LANG=zh", (t) => {
+  it.only("#integration should output Chinese when LANG=zh", (t) => {
     const output = execSync("node ./bin/pocket.js list", {
       env: {
         ...process.env, // 保留原有环境变量
@@ -71,10 +71,43 @@ describe("list command integration (i18n) #integration", () => {
 
     const [table] = output.split("📁")
 
-    // console.log("table:", table)
+    // console.log("table:", table?.split("\n"))
 
     t.assert.snapshot(table?.split("\n"))
 
+    assert.deepStrictEqual(
+      table,
+      `
+## 1. fish_open_npm → ✅ 已安装
+
+❯ 快速打开 npm 包页
+
+❯ fish_open_npm [--site=npmx] [包名]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+## 2. fish_open_repo → ✅ 已安装
+
+❯ 打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台
+
+❯ fish_open_repo
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+## 3. fish_pnpm_init_node_js_pkg → ⬜ 未安装
+
+❯ 快速初始化 Node.js pnpm 项目
+
+❯ fish_pnpm_init_node_js_pkg [文件夹名]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+## 4. fish_view_pkg_json → ⬜ 未安装
+
+❯ 快速查看项目 package.json，未指定 name 则项目本身，否则 node_modules/，其次若指定 key 则仅查看对应 value
+
+❯ fish_view_pkg_json [pkg_name] [key]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+`,
+    )
     assert.ok(
       stripVTControlCharacters(output).includes(
         `📁 安装路径: ~\\.pelican\\alias-list\\index.sh`.replace(

@@ -46,8 +46,8 @@ export async function listCommand(log = true) {
   )
   // console.log("maxDescriptionLength:", maxDescriptionLength)
 
-  // 单元测试中 terminalWidth 为 undefined，认为他是无限大 不折行 输出用 console.table
-  const terminalWidth = process.stdout.columns || Infinity
+  // 单元测试中 terminalWidth 为 undefined，强制 markdown 输出，console.table diff 噪音大
+  const terminalWidth = process.stdout.columns || 0
 
   const delta = 81 // 208 - 127
 
@@ -63,9 +63,14 @@ export async function listCommand(log = true) {
   const isLineWrapped = maxLineWidth > terminalWidth
   // console.log("maxLineWidth:", { isLineWrapped, maxLineWidth, terminalWidth })
 
+  const separatorLength = (maxDescriptionLength * 4.5) / 3
   const lineSeparator = styleText(
     "gray",
-    "─".repeat(Math.min(terminalWidth - 1, (maxDescriptionLength * 4.5) / 3)),
+    "─".repeat(
+      terminalWidth - 1 <= 0
+        ? separatorLength
+        : Math.min(terminalWidth - 1, separatorLength),
+    ),
   )
 
   for (const alias of available) {

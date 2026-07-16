@@ -15,9 +15,9 @@
 >
 > 从**鹈鹕**鼓鼓囊囊的喉囊中掏出你的专属命令行工具吧！
 
-一个 shell alias 库。类似 shadcn，通过复制安装。
+一个 shell alias 库。类似 **shadcn**，通过复制安装。
 
-你可以尽情修改成自己想要的样子 — you own the code, just like shadcn.
+你可以尽情修改成自己想要的样子 — *you own the code, just like shadcn*.
 
 ## 安装 —— 领养专属鹈鹕
 

@@ -17,9 +17,9 @@
 >
 > Your command-line tool is right in your pelican' pouch — take it out.
 
-A shell alias library that follows the shadcn approach — installed via copy source code, not dependency.
+A shell alias library that follows the **shadcn approach** — installed via copy source code, not dependency.
 
-Feel free to customize it — you own the code, just like shadcn.
+Feel free to customize it — you own the code, just like **shadcn**.
 
 ## Install
 

@@ -94,7 +94,7 @@ Feel free to remove `~/.pelican` directory (optional).
 | --- | --- | --- |
 | `fish_open_npm` | Quickly **open** a package's npm page. | `fish_open_npm [--site=npmx] [pkg_name]` |
 | `fish_open_repo` | **Open** the current project's repository URL in browser — whether it's GitHub, GitLab or privately deployed. | `fish_open_repo` |
-| `fish_pnpm_init_node_js_pkg` | Quickly **set up** a Node.js ESM cli with pnpm. | `fish_pnpm_init_node_js_pkg <folder_name>` |
+| `fish_pnpm_init_node_js_pkg` | Quickly **set up** a Node.js ESM CLI App with pnpm. | `fish_pnpm_init_node_js_pkg <folder_name>` |
 | `fish_touchr` | **Create** file at any directory level. For HTML files: automatically inject HTML template or write directly if HTML content detected in clipboard then auto-open in both editor and browser | `fish_touchr </path/to/file>` |
 | `fish_view_pkg_json` | Quickly **peek** into package.json — uses the current project by default, or looks in node_modules/ if you specify a name. You can also pass a key to see just that value | `fish_view_pkg_json [pkg_name] [key]` |
 

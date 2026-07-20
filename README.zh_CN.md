@@ -34,11 +34,11 @@ pelican catch
 
 | Fish (Alias) | 描述 | 如何食用 |
 | --- | --- | --- |
-| `fish_open_npm` | 快速**打开** npm 包页 | `fish_open_npm [--site=npmx] [包名]` |
-| `fish_open_repo` | **打开**当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台 | `fish_open_repo` |
-| `fish_pnpm_init_node_js_pkg` | 快速**初始化** Node.js pnpm ESM 项目 | `fish_pnpm_init_node_js_pkg [文件夹名]` |
-| `fish_touchr` | 任意层级目录**创建**文件，如果是 html 文件，则自动添加 HTML 模板（如果发现你复制了 HTML 则自动写入）并且自动打开编辑器和浏览器 | `fish_touchr </path/to/file>` |
-| `fish_view_pkg_json` | 快速**查看**项目 package.json，未指定 name 则项目本身，否则 node_modules/，其次若指定 key 则仅查看对应 value | `fish_view_pkg_json [pkg_name] [key]` |
+| [`fish_open_npm`](templates/fish_open_npm.sh) | 快速**打开** npm 包页 | `fish_open_npm [--site=npmx] [包名]` |
+| [`fish_open_repo`](templates/fish_open_repo.sh) | **打开**当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台 | `fish_open_repo` |
+| [`fish_pnpm_init_node_js_pkg`](templates/fish_pnpm_init_node_js_pkg/index.sh) | 快速**初始化** Node.js pnpm ESM 项目 | `fish_pnpm_init_node_js_pkg [文件夹名]` |
+| [`fish_touchr`](templates/fish_touchr.sh) | 任意层级目录**创建**文件，如果是 html 文件，则自动添加 HTML 模板（如果发现你复制了 HTML 则自动写入）并且自动打开编辑器和浏览器 | `fish_touchr </path/to/file>` |
+| [`fish_view_pkg_json`](templates/fish_view_pkg_json.sh) | 快速**查看**项目 package.json，未指定 name 则项目本身，否则 node_modules/，其次若指定 key 则仅查看对应 value | `fish_view_pkg_json [pkg_name] [key]` |
 
 ## 使用方式 —— 捕鱼
 

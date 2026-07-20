@@ -4,7 +4,7 @@
     "access": "public"
   },
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Alias pocket: A shell alias library that follows the shadcn approach — installed via copy source code, not dependency. Feel free to customize it — you own the code, just like shadcn.",
   "main": "index.js",
   "scripts": {

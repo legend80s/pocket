@@ -12,12 +12,11 @@
 <p align="center">English | <a href="./README.zh_CN.md">中文</a></p>
 
 > 🦩 The **鹈鹕 [`tíhú`] pelican** is a bird skilled at catching fish. A trained pelican will deliver all its catch to its owner —
->
 > and `Pelican` delivers every alias to you.
 >
 > Your command-line tool is right in your pelican' pouch — take it out.
 
-A shell alias library that follows the **shadcn** <img class="avatar mr-2 d-none d-md-block" alt="Owner avatar" src="https://avatars.githubusercontent.com/u/139895814?s=48&amp;v=4" width="20" height="20"> approach — installed via copy source code, not dependency.
+A shell alias library that follows the **shadcn** <img class="avatar mr-2 d-none d-md-block" alt="Owner avatar" src="https://avatars.githubusercontent.com/u/139895814?s=48&amp;v=4" width="20" height="20" /> approach — installed via copy source code, not dependency.
 
 Feel free to customize it — *you own the code, just like shadcn*.
 

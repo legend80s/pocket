@@ -22,6 +22,7 @@ touchr() {
     mkdir -p "$(dirname "$1")" && touch "$1" && code "$1"
 
     # 如果文件名 `.html` 结尾则使用浏览器打开。
+    # Open in browser if file name ends with `.html`
     if [[ "$1" == *.html ]]; then
       local basename=$(basename "$1", '.html')
 

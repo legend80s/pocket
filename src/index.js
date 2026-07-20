@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Pocket CLI 主入口
+ * Pocket CLI main
  * @import { AddOptions, ParsedArgs } from './types.js'
  */
 

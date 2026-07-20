@@ -4,12 +4,10 @@
 # desc.en: Quickly initialize a Node.js pnpm project
 # usage.en: fish_pnpm_init_node_js_pkg [folder_name]
 
-# 定义颜色
 GREEN='\033[0;32m'
 BOLD_GREEN='\033[1;32m'
 NC='\033[0m'
 
-# 输出绿色文字
 __fish_echo_green() {
   echo -e "${GREEN}$1${NC}"
 }
@@ -21,37 +19,37 @@ fish_pnpm_init_node_js_pkg() {
   __fish_md_and_cd "$@" && __fish_pnpm_init_in_folder
 }
 
-# 功能：创建文件夹并进入
-# 用法：mcd [文件夹名]
+# mkdir and cd into the folder
+# Usage：mcd [folder_name]
 __fish_md_and_cd() {
   dirname="$1"
 
   # If no argument provided, prompt for input
   if [ -z "$dirname" ]; then
     echo ''
-    # read -p "请输入文件夹名: " dirname
+
     echo -n "Enter folder name (will also be used as \`name\` in package.json):"
     read dirname
-    # 检查是否输入了内容
+
     if [ -z "$dirname" ]; then
       echo "❌ Error: Folder name cannot be empty"
       return 1
     fi
   fi
 
-  # 检查文件夹是否已存在
+  # Check if the folder already exists
   if [ -d "$dirname" ]; then
     echo "❌ Error: Folder '$dirname' already exists"
     return 1
   fi
 
-  # 检查是否包含特殊字符（可选）
+  # Check if the folder name contains invalid characters
   if [[ "$dirname" =~ [/:*?\"\<\>\|] ]]; then
     echo "❌ Error: Folder name contains invalid characters"
     return 1
   fi
 
-  # 创建文件夹并进入
+  # Create the folder and enter it
   if mkdir -p "$dirname" && cd "$dirname"; then
     echo "\n✅ Successfully created and entered folder: ${GREEN}$(pwd)${NC}"
     return 0
@@ -90,7 +88,7 @@ __fish_pnpm_init_in_folder() {
   # "preversion": "npm test && npm run typecheck",
   # "postversion": "npm publish && git push && git push --tags"
 
-  # 最佳实践 一键发布 `npm run pub:patch` / `npm run pub:minor` / `npm run pub:major`
+  # Inject my beloved quick publish shortcuts: `npm run pub:patch` | `pub:minor` | `pub:major`
   __fish_echo_green '7. Modify package.json scripts to add "tsgo --noEmit" and "npm run pub:patch|minor|major" ...\n' && \
   npm pkg set scripts.typecheck="tsgo --noEmit" \
     scripts.test="node --test" \

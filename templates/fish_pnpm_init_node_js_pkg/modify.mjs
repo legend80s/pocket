@@ -43,8 +43,7 @@ function modifyTsConfig(dir) {
   let content = readFileSync(TS_CONFIG, "utf8")
   let modified = false
 
-  // 1. 将 "types": [] 改成 `"types": ["node"]`
-  // 匹配多种格式：// "types": ["node"], 或 //  "types": ["node"], 等
+  // 1. Replace `"types": []` to `"types": ["node"]`
   const empty = '"types": []'
   if (content.includes(empty)) {
     content = content.replace(empty, '"types": ["node"]')
@@ -52,11 +51,11 @@ function modifyTsConfig(dir) {
     console.log('  ✓ Added `"types": ["node"]`')
   }
 
-  // 2. 添加 "checkJs": true, 如果不存在
+  // 2. Add `"checkJs": true` if not exists
   if (!content.includes('"checkJs":')) {
-    // 在 "strict": true, 后面添加
+    // Placed after `"strict": true,`
     content = content.replace(/("strict":\s*true,\s*)/, (match, p1) => {
-      // 获取缩进
+      // get indentation
       const indent = match.match(/^(\s*)/)?.[0] || "    "
       return `${p1}\n${indent}"checkJs": true,\n${indent}`
     })
@@ -71,7 +70,6 @@ function modifyTsConfig(dir) {
     process.exit(0)
   }
 
-  // 写入文件
   writeFileSync(TS_CONFIG, content, "utf8")
 
   console.log("✅ Successfully updated", `"${TS_CONFIG}"`)

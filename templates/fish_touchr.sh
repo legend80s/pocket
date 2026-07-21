@@ -27,7 +27,7 @@ fish_touchr() {
       local basename=$(basename "$1", '.html')
 
       # powershell.exe -Command "Get-Clipboard"
-      local clipboard=$(cat /dev/clipboard)
+      local clipboard=$(__fish_get_clipboard)
 
       if [[ $clipboard == '<!DOCTYPE html>'* ]]; then
         echo 'created from clipboard 📋'
@@ -48,6 +48,35 @@ fish_touchr() {
 </html>' > "$1"
       fi
 
-      start "$1" || open "$1"
+      start "$1" 2>/dev/null || open "$1"
     fi
 }
+
+__fish_get_clipboard() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS 使用 pbpaste
+        pbpaste
+    elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "win32" ]]; then
+        # Windows Git Bash (MSYS2) 或 Cygwin
+        # 方法1: 使用 powershell.exe
+        # powershell.exe -Command "Get-Clipboard"
+        cat /dev/clipboard 2>/dev/null || powershell.exe -Command "Get-Clipboard"
+        # 方法2: 如果安装了 clip 命令（某些Windows版本自带）
+        # clip 是复制到剪贴板，不能读取，所以只能用 PowerShell
+    else
+        # Linux 等其他系统
+        # 需要安装 xclip 或 xsel
+        if command -v xclip &> /dev/null; then
+            xclip -selection clipboard -o
+        elif command -v xsel &> /dev/null; then
+            xsel --clipboard --output
+        else
+            echo "Error: No clipboard command found" >&2
+            return 1
+        fi
+    fi
+}
+
+# 使用方式
+# clipboard_content=$(__fish_get_clipboard)
+# echo "剪贴板内容: $clipboard_content"

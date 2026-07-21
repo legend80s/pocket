@@ -18,7 +18,7 @@
 # PLUS 2. and if file name is `.html` then open it in browser.
 # PLUS 3. and if is `.html` and clipboard content is HTML like snippets then paste it into the file otherwise write HTML5 template into the file.
 # ALL the above is automated by this function.
-touchr() {
+fish_touchr() {
     mkdir -p "$(dirname "$1")" && touch "$1" && code "$1"
 
     # 如果文件名 `.html` 结尾则使用浏览器打开。

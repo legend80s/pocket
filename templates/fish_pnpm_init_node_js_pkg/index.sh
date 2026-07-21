@@ -99,7 +99,7 @@ __fish_pnpm_init_in_folder() {
     scripts.postversion="npm publish && git push && git push --tags" && \
 
   __fish_echo_green '8. Modify tsconfig.json and biome.json' && \
-  node ./modify.mjs "$PWD" && \
+  node ~/.pelican/alias-list/fish_pnpm_init_node_js_pkg/modify.mjs "$PWD" && \
   __fish_echo_green '\n9. Done!'
 
   end_time=$(date +%s)

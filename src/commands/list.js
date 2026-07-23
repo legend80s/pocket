@@ -7,6 +7,7 @@ import { getConfig, isAliasInstalled } from "../utils/config.js"
 import { isChinese } from "../utils/lang.js"
 import { t } from "../utils/locales.js"
 import { listAvailableAliases } from "../utils/template.js"
+import { printTable } from "../utils/logger.js"
 /** @import { ILogger } from '../utils/logger.type.js' */
 
 /**
@@ -16,7 +17,7 @@ import { listAvailableAliases } from "../utils/template.js"
 export async function listCommand({
   printListResult = true,
   logger,
-  listFormat = "adaptive",
+  listFormat = "table",
 } = {}) {
   const { aliasDir, aliasesFile } = getConfig()
 
@@ -66,10 +67,10 @@ export async function listCommand({
     ) + delta
 
   // const isLineWrapped = false
-  const isLineWrapped = maxLineWidth > terminalWidth
+  // const isLineWrapped = maxLineWidth > terminalWidth
 
   logger?.debug("maxLineWidth:", {
-    isLineWrapped,
+    // isLineWrapped,
     maxLineWidth,
     terminalWidth,
     maxDescriptionLength,
@@ -101,13 +102,13 @@ export async function listCommand({
 
     // all.push({
     all[`#${index}`] = {
-      "Fish (alias)": alias.name,
-      Description: alias.description,
-      Usage: alias.usage,
-      "Installed?": installed ? "✅" : "⚪",
+      "Fish (alias)": `${styleText("green", String(index + "."))} ${alias.name}`,
+      Description: `${styleText("gray", "❯")} ${alias.description}`,
+      Usage: `${styleText("cyan", "❯")} ${alias.usage}`,
+      "Installed?": installed ? "✅" : "⬜",
     }
 
-    if (printListResult && (isLineWrapped || listFormat === "markdown")) {
+    if (printListResult && listFormat === "markdown") {
       const statusText = installed ? green(status) : styleText("yellow", status)
       console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
 
@@ -129,9 +130,10 @@ export async function listCommand({
 
   if (printListResult) {
     // console.log(all, "\n")
-    if (!isLineWrapped || listFormat === "table") {
+    if (listFormat === "table") {
       // console.log(all)
-      console.table(all)
+      // console.table(all)
+      printTable(Object.values(all))
     }
 
     console.log(

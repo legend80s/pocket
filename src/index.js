@@ -42,7 +42,7 @@ function parseArgsAll(args) {
       // debug: { type: "boolean" },
       verbose: { type: "boolean", default: false },
       "dry-run": { type: "boolean", default: false },
-      "list-format": { type: "string", default: "adaptive" },
+      "list-format": { type: "string", default: "table" },
     },
     allowPositionals: true,
     strict: true,

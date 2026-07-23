@@ -87,6 +87,12 @@ export async function listCommand({
     ),
   )
 
+  const segmenter = new Intl.Segmenter("en", { granularity: "sentence" })
+  /** @param {string} text  */
+  function splitSentences(text) {
+    return Array.from(segmenter.segment(text), (segment) => segment.segment)
+  }
+
   for (const alias of available) {
     const installed = installedMap[alias.name] ?? false
     const status = installed
@@ -104,7 +110,13 @@ export async function listCommand({
     if (printListResult && (isLineWrapped || listFormat === "markdown")) {
       const statusText = installed ? green(status) : styleText("yellow", status)
       console.log(`${green(`## ${index}. ${alias.name}`)} → ${statusText}`)
-      console.log(`\n${styleText("gray", "❯")} ${alias.description}\n`)
+
+      console.log()
+      for (const sentence of splitSentences(alias.description)) {
+        console.log(`${styleText("gray", "❯")} ${sentence}`)
+      }
+      console.log()
+      // console.log(`\n${styleText("gray", "❯")} ${alias.description}\n`)
       console.log(`${styleText("cyan", "❯")} ${green(alias.usage)}`)
       console.log(lineSeparator)
       console.log(``)

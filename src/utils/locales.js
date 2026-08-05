@@ -11,7 +11,7 @@ const zh = {
   // index.js
   "help.text": `\
 
-> 🐦 Pelican - 从鹈鹕鼓鼓囊囊的后囊中掏出你的专属命令行工具
+> 🐦 Pelican - 从鹈鹕鼓鼓囊囊的喉囊中掏出你的专属命令行工具
 
 ## 用法:
   pelican catch <alias...>    安装一个或多个 alias

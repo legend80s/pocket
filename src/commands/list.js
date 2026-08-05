@@ -102,10 +102,15 @@ export async function listCommand({
 
     // all.push({
     all[`#${index}`] = {
+      // "Fish (alias)": alias.name,
       "Fish (alias)": `${styleText("green", String(index + "."))} ${alias.name}`,
+      // Description: alias.description,
       Description: `${styleText("gray", "❯")} ${alias.description}`,
+      // Usage: alias.usage,
       Usage: `${styleText("cyan", "❯")} ${alias.usage}`,
-      "Installed?": installed ? "✅" : "⬜",
+      // "Installed?": installed ? "✅" : "🔳",
+      "Installed?": installed ? "🟢" : "⚪",
+      // "Installed?": installed ? "✅" : "⬜🈚〇",
     }
 
     if (printListResult && listFormat === "markdown") {
@@ -132,6 +137,13 @@ export async function listCommand({
     // console.log(all, "\n")
     if (listFormat === "table") {
       // console.log(all)
+      // for (const [key1, value] of Object.entries(all)) {
+      //   console.log(key1)
+      //   for (const [key, value2] of Object.entries(value)) {
+      //     console.log(key, "→", value2)
+      //   }
+      //   console.log()
+      // }
       // console.table(all)
       printTable(Object.values(all))
     }

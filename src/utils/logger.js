@@ -1,5 +1,7 @@
 /** @import { ILogger } from './logger.type.js' */
 
+import { stripVTControlCharacters, styleText } from "node:util"
+
 /**
  * @implements {ILogger}
  */
@@ -40,7 +42,7 @@ if (import.meta.main) {
     },
     {
       Name: "temp2",
-      Source: "custom",
+      Source: styleText("green", "❯ 《自定义》"),
       Description: 'Custom scenario "my-scenario"',
     },
     { Name: "temp3", Source: "custom", Description: 'Custom scenario "temp3"' },
@@ -117,10 +119,30 @@ if (import.meta.main) {
 }
 
 /** @param {string} str  */
-function getDisplayLength(str) {
+function getDisplayLength(str = "") {
   // 移除 ANSI 转义码计算实际显示长度
-  // biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
-  return str.replace(/\x1b\[[0-9;]*m/g, "").length
+  const regex =
+    /\p{Script=Han}|[，。！？；：、‘’“”「」『』（）【】《》〈〉…—～]/gu
+
+  const stripped = stripVTControlCharacters(str)
+  // const stripped = str.replace(/\x1b\[[0-9;]*m/g, "")
+
+  return stripped.length + (stripped.match(regex) || []).length
+}
+
+if (import.meta.main) {
+  const { deepStrictEqual  } = await import("node:assert")
+  const { test } = await import("node:test")
+  test("getDisplayLength", () => {
+    // @ts-expect-error
+    deepStrictEqual(getDisplayLength("你好"), 4)
+    // @ts-expect-error
+    deepStrictEqual(getDisplayLength("Hello"), 5)
+    const value =
+      "快速查看项目 package.json，未指定 name 则项目本身，否则 node_modules/，其次若指定 key 则仅查看对应 value"
+    // @ts-expect-error
+    deepStrictEqual(getDisplayLength(value), 104)
+  })
 }
 
 /**
@@ -150,20 +172,26 @@ export function printTable(data, options = {}) {
   const padding = options.padding || 2
   const maxWidth = options.maxWidth || process.stdout.columns || 120
 
+  // console.log("columns:", columns)
+
   // 计算每列最大宽度（使用显示长度）
   /** @type {Record<string, number>} */
   const colWidths = {}
   columns.forEach((col) => {
     let maxColWidth = getDisplayLength(col)
+    // console.log("maxColWidth:", { maxColWidth, col })
 
     data.forEach((row) => {
       const value = row[col] !== undefined ? String(row[col]) : ""
       const displayLen = getDisplayLength(value)
+      // console.log("value:", { value, displayLen })
       maxColWidth = Math.max(maxColWidth, displayLen)
     })
 
     colWidths[col] = maxColWidth + padding
+    // console.log("colWidths:", colWidths, "\n")
   })
+  // console.log("end colWidths:", colWidths)
 
   // 如果总宽度超过 maxWidth，截断长列
   const totalWidth = columns.reduce(
@@ -231,9 +259,9 @@ export function printTable(data, options = {}) {
         const displayLen = getDisplayLength(value)
         // @ts-expect-error
         if (displayLen > colWidths[col]) {
-          // 需要截断，保留 ... 占 3 个字符
+          // 需要截断，保留 ... 占 3 个字符，增加冗余量变成 6 ↓
           // @ts-expect-error
-          const targetLen = colWidths[col] - 3
+          const targetLen = colWidths[col] - 5
           // 逐个字符截断，但保留 ANSI 颜色码
           let result = ""
           let currentLen = 0
@@ -261,7 +289,7 @@ export function printTable(data, options = {}) {
 
             if (currentLen < targetLen) {
               result += char
-              currentLen++
+              currentLen += getDisplayLength(char)
             } else {
               // 如果后续还有 ANSI 码需要保留
               if (ansiBuffer) {

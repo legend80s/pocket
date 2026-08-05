@@ -85,7 +85,7 @@ describe("list command integration (i18n) #integration", () => {
         ) +
           `
 
-💡 运行 \`pelican catch <fish>\` 安装
+运行 \`pelican catch <fish>\` 安装
 `,
       ),
     )

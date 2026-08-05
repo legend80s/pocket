@@ -58,7 +58,7 @@ const zh = {
   "list.status.installed": "✅ 已安装",
   "list.status.not_installed": "⬜ 未安装",
   "list.footer.path": "📁 安装路径: {path}",
-  "list.footer.hint": `\n💡 运行 ${styleText("green", "`pelican catch <fish>`")} 安装`,
+  "list.footer.hint": `\n运行 ${styleText("green", "`pelican catch <fish>`")} 安装`,
 
   // template.js
   "template.error.no_description": "模板 {name} 没有描述信息",
@@ -116,7 +116,7 @@ const en = {
   "list.status.installed": "✅ Installed",
   "list.status.not_installed": "⬜ Not installed",
   "list.footer.path": "📁 Install path: {path}",
-  "list.footer.hint": `\n💡 Run ${styleText("green", "`pelican catch <fish>`")} to install`,
+  "list.footer.hint": `\nRun ${styleText("green", "`pelican catch <fish>`")} to install`,
 
   "template.error.no_description":
     "Template {name} does not have a description",

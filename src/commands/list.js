@@ -6,8 +6,8 @@ import { styleText } from "node:util"
 import { getConfig, isAliasInstalled } from "../utils/config.js"
 import { isChinese } from "../utils/lang.js"
 import { t } from "../utils/locales.js"
-import { listAvailableAliases } from "../utils/template.js"
 import { printTable } from "../utils/logger.js"
+import { listAvailableAliases } from "../utils/template.js"
 /** @import { ILogger } from '../utils/logger.type.js' */
 
 /**

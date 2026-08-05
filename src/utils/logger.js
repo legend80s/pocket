@@ -122,7 +122,7 @@ if (import.meta.main) {
 function getDisplayLength(str = "") {
   // 移除 ANSI 转义码计算实际显示长度
   const regex =
-    /\p{Script=Han}|[，。！？；：、‘’“”「」『』（）【】《》〈〉…—～]/gu
+    /\p{Script=Han}|[，。！？；：、‘’“”「」『』（）【】《》〈〉…～]/gu
 
   const stripped = stripVTControlCharacters(str)
   // const stripped = str.replace(/\x1b\[[0-9;]*m/g, "")
@@ -131,17 +131,26 @@ function getDisplayLength(str = "") {
 }
 
 if (import.meta.main) {
-  const { deepStrictEqual  } = await import("node:assert")
+  const { deepStrictEqual } = await import("node:assert")
   const { test } = await import("node:test")
   test("getDisplayLength", () => {
     // @ts-expect-error
     deepStrictEqual(getDisplayLength("你好"), 4)
     // @ts-expect-error
     deepStrictEqual(getDisplayLength("Hello"), 5)
+    // @ts-expect-error
+    deepStrictEqual(getDisplayLength("—"), 1)
     const value =
       "快速查看项目 package.json，未指定 name 则项目本身，否则 node_modules/，其次若指定 key 则仅查看对应 value"
     // @ts-expect-error
     deepStrictEqual(getDisplayLength(value), 104)
+  })
+
+  console.table({
+    foo: "bar",
+    foz: "ba—",
+    1: `json — uses`,
+    2: `json x uses`,
   })
 }
 

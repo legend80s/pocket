@@ -29,7 +29,7 @@ fish_touchr() {
       # powershell.exe -Command "Get-Clipboard"
       local clipboard=$(__fish_get_clipboard)
 
-      if [[ $clipboard == '<!DOCTYPE html>'* ]]; then
+      if [[ $clipboard == '<!DOCTYPE html>'* || $clipboard == '<!doctype html>'* ]]; then
         echo 'created from clipboard 📋'
         echo $clipboard > "$1"
       else

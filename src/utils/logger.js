@@ -215,16 +215,22 @@ export function printTable(data, options = {}) {
     const needReduce = totalWidth + separatorWidth - maxWidth
 
     // 找出最长的列进行截断
-    const sortedCols = [...columns].sort((a, b) => colWidths[b] - colWidths[a])
+    const sortedCols = [...columns].sort(
+      (a, b) =>
+        // @ts-expect-error
+        colWidths[b] - colWidths[a],
+    )
 
     let reduced = 0
     for (const col of sortedCols) {
       if (reduced >= needReduce) break
 
       const minWidth = getDisplayLength(col) + padding
+      // @ts-expect-error
       const canReduce = colWidths[col] - minWidth
       if (canReduce > 0) {
         const reduce = Math.min(canReduce, needReduce - reduced)
+        // @ts-expect-error
         colWidths[col] -= reduce
         reduced += reduce
       }

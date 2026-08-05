@@ -3,7 +3,7 @@
 # desc: 任意层级目录创建文件，.html 文件则自动添加 HTML 模板（粘贴板有 HTML 则自动写入）和打开编辑器和浏览器
 # usage: fish_touchr /path/to/file
 
-# desc.en: Create file in nested directories. For HTML files auto-inject HTML template or write directly if HTML content detected in clipboard then auto-open in  editor and browser
+# desc.en: Create file in nested directories. For HTML files a template or HTML if detected in clipboard will be written then auto-open in editor and browser
 # usage.en: fish_touchr /path/to/file
 
 # @private

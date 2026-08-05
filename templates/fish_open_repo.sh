@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# desc.en: Open the current project's repository URL in browser — whether it's GitHub, GitLab or privately deployed code platform.
+# desc.en: Open current project's repository URL in browser — whether GitHub, GitLab or privately deployed code platform.
 # usage.en: fish_open_repo
 
 # desc: 打开当前项目的远程仓库 URL，无论它是 GitHub、GitLab 还是私有部署的代码平台

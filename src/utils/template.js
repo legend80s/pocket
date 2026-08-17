@@ -20,6 +20,7 @@ const TEMPLATES_DIR = join(__dirname, "../../templates")
  */
 function extractMeta(content) {
   const isZh = isChinese()
+  // console.log('isZh:', isZh);
 
   const desc = isZh
     ? content.match(/^# desc:\s*(.+)/m)?.[1]

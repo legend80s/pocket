@@ -1,6 +1,18 @@
 import assert from "node:assert"
-import { it } from "node:test"
+import { after, before, it } from "node:test"
 import { listAvailableAliases } from "./template.js"
+
+const lang = process.env.LANG
+
+before(() => {
+  // Set the language to Chinese for stable testing in all environments.
+  process.env.LANG = `zh_CN.UTF-8`
+})
+
+after(() => {
+  // Reset the language to the default value.
+  process.env.LANG = lang
+})
 
 it("should list all available alias templates", () => {
   const templates = listAvailableAliases()

@@ -1,20 +1,16 @@
 import assert from "node:assert"
 import { execSync } from "node:child_process"
 import { homedir } from "node:os"
-import { after, describe, it, mock } from "node:test"
+import { describe, it } from "node:test"
 import { stripVTControlCharacters } from "node:util"
+import { testGlobalSetup } from "../../tests/setup-module.js"
 import { listCommand } from "./list.js"
-
-const ORIG_LANG = process.env.LANG
 
 describe("list command integration (i18n) #integration", () => {
   /** @type {string[]} */
   let outputChunks = []
 
-  after(() => {
-    process.env.LANG = ORIG_LANG
-    mock.reset()
-  })
+  testGlobalSetup()
 
   /**
    * Run listCommand with a given LANG and return captured stdout
